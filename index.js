@@ -1,60 +1,113 @@
+const fs = require("fs");
+
 class ProductManager {
   constructor() {
-    this.products = [];
+    this.path = "./products.json";
+    if (!fs.existsSync(this.path)) {
+      fs.writeFileSync(this.path, "[]");
+    }
   }
 
-  addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct(title, description, price, thumbnail, code, stock) {
     if (!(title && description && price && thumbnail && code && stock)) {
-      console.log("ERROR: Debes completar todos los campos");
+      console.log("Error: Debes completar todos los datos.");
     } else {
-      if (this.products.some((p) => p.code === code)) {
-        console.log("ERROR: Ya existe un producto con ese código.");
+      let products = await this.getProducts();
+      if (products.some((p) => p.code === code)) {
+        console.log("Error: Ya existe un producto con ese código");
       } else {
-        this.products.push({
+        const lastId =
+          products.length > 0 ? products[products.length - 1].id : -1;
+        const newProduct = {
           title,
           description,
           price,
           thumbnail,
           code,
           stock,
-          id: this.products.length,
-        });
+          id: lastId + 1,
+        };
+        products.push(newProduct);
+        console.log("Producto agregado: " + title);
+        await fs.promises.writeFile(this.path, JSON.stringify(products));
       }
     }
   }
 
-  getProductById(id) {
-    if (this.products.some((p) => p.id === id)) {
-      return this.products.filter((product) => product.id === id);
+  async updateProduct(id, updatedProduct) {
+    let products = await this.getProducts();
+    const productIndex = products.findIndex((p) => p.id === id);
+    if (productIndex < 0) {
+      console.log("Error: id not found.");
     } else {
-      return "Not found";
+      products[productIndex] = {
+        ...products[productIndex],
+        ...updatedProduct,
+      };
+      await fs.promises.writeFile(this.path, JSON.stringify(products));
+      console.log("Producto actualizado");
     }
   }
 
-  getProducts() {
-    return this.products;
+  async getProductById(id) {
+    const products = await this.getProducts();
+    if (products.some((p) => p.id === id)) {
+      return products.filter((product) => product.id === id);
+    } else {
+      return "ID not found";
+    }
+  }
+
+  async getProducts() {
+    const fileContent = await fs.promises.readFile(this.path, "utf-8");
+    return JSON.parse(fileContent);
+  }
+
+  async deleteProduct(id) {
+    let products = await this.getProducts();
+    const productIndex = products.findIndex((p) => p.id === id);
+    if (productIndex < 0) {
+      console.log("Error: id not found.");
+    } else {
+      products.splice(productIndex, 1);
+      await fs.promises.writeFile(this.path, JSON.stringify(products));
+      console.log("Producto eliminado");
+    }
   }
 }
 
-//Testing:
+//-----------------------------------------Testing:-----------------------------------------
 const prod = new ProductManager();
-console.log(prod.getProducts());
-prod.addProduct(
-  "Producto Prueba",
-  "Este es un producto de prueba",
-  200,
-  "Sin imagen",
-  "abc123",
-  25
-);
-console.log(prod.getProducts());
-prod.addProduct(
-  "Producto Prueba",
-  "Este es un producto de prueba",
-  200,
-  "Sin imagen",
-  "abc123",
-  25
-);
-console.log(prod.getProductById(0));
-console.log(prod.getProductById(5));
+const tests = async () => {
+  await prod.getProducts().then((r) => console.log(r));
+  await prod.addProduct(
+    "Product title 1",
+    "Product test 1",
+    800,
+    "URL-TEST1",
+    "test1",
+    15
+  );
+  await prod.getProducts().then((r) => console.log(r));
+  await prod.addProduct(
+    "Product title 2",
+    "Product test 2",
+    200,
+    "URL-TEST2",
+    "test2",
+    20
+  );
+  await prod.addProduct(
+    "Product title 3",
+    "Product test 3",
+    100,
+    "URL-TEST3",
+    "test3",
+    80
+  );
+  await prod.getProductById(1).then((r) => console.log(r));
+  await prod.updateProduct(0, { stock: 1 });
+  await prod.deleteProduct(99);
+};
+
+tests();
