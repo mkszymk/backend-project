@@ -2,7 +2,7 @@ const fs = require("fs");
 
 class ProductManager {
   constructor() {
-    this.path = "./products.json";
+    this.path = "./src/data/products.json";
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, "[]");
     }
