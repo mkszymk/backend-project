@@ -54,7 +54,7 @@ class ProductManager {
     if (products.some((p) => p.id === id)) {
       return products.filter((product) => product.id === id);
     } else {
-      return "ID not found";
+      return { error: 404 };
     }
   }
 
@@ -76,38 +76,4 @@ class ProductManager {
   }
 }
 
-//-----------------------------------------Testing:-----------------------------------------
-const prod = new ProductManager();
-const tests = async () => {
-  await prod.getProducts().then((r) => console.log(r));
-  await prod.addProduct(
-    "Product title 1",
-    "Product test 1",
-    800,
-    "URL-TEST1",
-    "test1",
-    15
-  );
-  await prod.getProducts().then((r) => console.log(r));
-  await prod.addProduct(
-    "Product title 2",
-    "Product test 2",
-    200,
-    "URL-TEST2",
-    "test2",
-    20
-  );
-  await prod.addProduct(
-    "Product title 3",
-    "Product test 3",
-    100,
-    "URL-TEST3",
-    "test3",
-    80
-  );
-  await prod.getProductById(1).then((r) => console.log(r));
-  await prod.updateProduct(0, { stock: 1 });
-  await prod.deleteProduct(99);
-};
-
-tests();
+module.exports = { ProductManager };
