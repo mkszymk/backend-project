@@ -2,9 +2,9 @@
   "name": "product-manager",
   "version": "1.0.0",
   "description": "Backend project",
-  "main": "app.js",
+  "main": "./src/app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon ./src/app.js"
   },
   "author": "mkszymk",
   "license": "ISC",
