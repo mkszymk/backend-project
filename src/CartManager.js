@@ -62,19 +62,6 @@ class CartManager {
     const fileContent = await fs.promises.readFile(this.path, "utf-8");
     return JSON.parse(fileContent);
   }
-
-  //   async deleteProduct(id) {
-  //     let products = await this.getProducts();
-  //     const productIndex = products.findIndex((p) => p.id === id);
-  //     if (productIndex < 0) {
-  //       return { error: 404, message: "ID No encontrado" };
-  //     } else {
-  //       products.splice(productIndex, 1);
-  //       await fs.promises.writeFile(this.path, JSON.stringify(products));
-  //       console.log("Producto eliminado");
-  //       return { success: true, message: "Producto eliminado con éxito." };
-  //     }
-  //   }
 }
 
 export default CartManager;
