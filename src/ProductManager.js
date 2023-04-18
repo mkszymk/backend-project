@@ -8,13 +8,33 @@ class ProductManager {
     }
   }
 
-  async addProduct(title, description, price, thumbnail, code, stock) {
-    if (!(title && description && price && thumbnail && code && stock)) {
-      return { error: 422 };
+  async addProduct(
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    status,
+    category
+  ) {
+    if (
+      !(
+        title &&
+        description &&
+        price &&
+        thumbnail &&
+        code &&
+        stock &&
+        status &&
+        category
+      )
+    ) {
+      return { error: 422, message: "Faltan argumentos" };
     } else {
       let products = await this.getProducts();
       if (products.some((p) => p.code === code)) {
-        return { error: 409 };
+        return { error: 409, message: "El código ya existe" };
       } else {
         const lastId =
           products.length > 0 ? products[products.length - 1].id : -1;
@@ -25,6 +45,8 @@ class ProductManager {
           thumbnail,
           code,
           stock,
+          status,
+          category,
           id: lastId + 1,
         };
         products.push(newProduct);
@@ -36,17 +58,23 @@ class ProductManager {
   }
 
   async updateProduct(id, updatedProduct) {
+    if (updatedProduct.id)
+      return { error: 422, message: "No se puede enviar el dato ID" };
     let products = await this.getProducts();
     const productIndex = products.findIndex((p) => p.id === id);
     if (productIndex < 0) {
-      console.log("Error: id not found.");
+      return { error: 404, message: "ID Not Found.", id };
     } else {
       products[productIndex] = {
         ...products[productIndex],
         ...updatedProduct,
       };
       await fs.promises.writeFile(this.path, JSON.stringify(products));
-      console.log("Producto actualizado");
+      console.log(`Producto ${products[productIndex].title} actualizado.`);
+      return {
+        success: true,
+        message: `Producto ${products[productIndex].title} actualizado.`,
+      };
     }
   }
 
@@ -68,11 +96,12 @@ class ProductManager {
     let products = await this.getProducts();
     const productIndex = products.findIndex((p) => p.id === id);
     if (productIndex < 0) {
-      console.log("Error: id not found.");
+      return { error: 404, message: "ID No encontrado" };
     } else {
       products.splice(productIndex, 1);
       await fs.promises.writeFile(this.path, JSON.stringify(products));
       console.log("Producto eliminado");
+      return { success: true, message: "Producto eliminado con éxito." };
     }
   }
 }

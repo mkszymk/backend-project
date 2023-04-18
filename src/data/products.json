@@ -6,6 +6,8 @@
     "thumbnail": "NO-IMG",
     "code": "iphone14",
     "stock": 17,
+    "status": true,
+    "category": "phones",
     "id": 0
   },
   {
@@ -15,6 +17,8 @@
     "thumbnail": "NO-IMG",
     "code": "samsungs23",
     "stock": 23,
+    "status": true,
+    "category": "phones",
     "id": 1
   },
   {
@@ -24,6 +28,8 @@
     "thumbnail": "NO-IMG",
     "code": "huawein10",
     "stock": 32,
+    "status": true,
+    "category": "phones",
     "id": 2
   },
   {
@@ -33,6 +39,8 @@
     "thumbnail": "NO-IMG",
     "code": "xiaomi12",
     "stock": 11,
+    "status": true,
+    "category": "phones",
     "id": 3
   },
   {
@@ -42,6 +50,8 @@
     "thumbnail": "NO-IMG",
     "code": "oneplus11",
     "stock": 18,
+    "status": true,
+    "category": "phones",
     "id": 4
   },
   {
@@ -51,6 +61,8 @@
     "thumbnail": "NO-IMG",
     "code": "moto20pro",
     "stock": 22,
+    "status": true,
+    "category": "phones",
     "id": 5
   },
   {
@@ -60,6 +72,8 @@
     "thumbnail": "NO-IMG",
     "code": "msigf63",
     "stock": 23,
+    "status": true,
+    "category": "computer",
     "id": 6
   },
   {
@@ -69,6 +83,8 @@
     "thumbnail": "NO-IMG",
     "code": "dellg15",
     "stock": 32,
+    "status": true,
+    "category": "computer",
     "id": 7
   },
   {
@@ -78,6 +94,8 @@
     "thumbnail": "NO-IMG",
     "code": "xboxsx",
     "stock": 11,
+    "status": true,
+    "category": "consoles",
     "id": 8
   },
   {
@@ -87,6 +105,8 @@
     "thumbnail": "NO-IMG",
     "code": "ps5",
     "stock": 18,
+    "status": true,
+    "category": "consoles",
     "id": 9
   },
   {
@@ -94,8 +114,10 @@
     "description": "Guitarra eléctrica",
     "price": 1800,
     "thumbnail": "No-Img",
-    "code": "gbs-lp",
-    "stock": 19,
+    "code": "gb-lp",
+    "stock": 14,
+    "status": true,
+    "category": "guitar",
     "id": 10
   }
 ]

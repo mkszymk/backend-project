@@ -26,11 +26,34 @@ router.post("/", async (req, res) => {
     product.price,
     product.thumbnail,
     product.code,
-    product.stock
+    product.stock,
+    product.status,
+    product.category
   );
   if (addProductResponse.error)
     return res.status(addProductResponse.error).send(addProductResponse);
   return res.status(200).send(addProductResponse);
+});
+
+router.put("/:pid", async (req, res) => {
+  const productId = parseInt(req.params.pid);
+  const productInfo = req.body;
+  const updateProductResponse = await productManager.updateProduct(
+    productId,
+    productInfo
+  );
+  if (updateProductResponse.error)
+    return res.status(updateProductResponse.error).send(updateProductResponse);
+
+  return res.send(updateProductResponse.message);
+});
+
+router.delete("/:pid", async (req, res) => {
+  const productId = parseInt(req.params.pid);
+  const deleteProductResponse = await productManager.deleteProduct(productId);
+  if (deleteProductResponse.error)
+    return res.status(deleteProductResponse.error).send(deleteProductResponse);
+  return res.send(deleteProductResponse);
 });
 
 export default router;
