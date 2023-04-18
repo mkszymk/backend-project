@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 class ProductManager {
   constructor() {
@@ -10,11 +10,11 @@ class ProductManager {
 
   async addProduct(title, description, price, thumbnail, code, stock) {
     if (!(title && description && price && thumbnail && code && stock)) {
-      console.log("Error: Debes completar todos los datos.");
+      return { error: 422 };
     } else {
       let products = await this.getProducts();
       if (products.some((p) => p.code === code)) {
-        console.log("Error: Ya existe un producto con ese código");
+        return { error: 409 };
       } else {
         const lastId =
           products.length > 0 ? products[products.length - 1].id : -1;
@@ -30,6 +30,7 @@ class ProductManager {
         products.push(newProduct);
         console.log("Producto agregado: " + title);
         await fs.promises.writeFile(this.path, JSON.stringify(products));
+        return { success: true, addedProduct: newProduct };
       }
     }
   }
@@ -76,4 +77,4 @@ class ProductManager {
   }
 }
 
-module.exports = { ProductManager };
+export default ProductManager;

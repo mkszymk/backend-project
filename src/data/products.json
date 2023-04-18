@@ -88,5 +88,14 @@
     "code": "ps5",
     "stock": 18,
     "id": 9
+  },
+  {
+    "title": "Gibson Les Paul",
+    "description": "Guitarra eléctrica",
+    "price": 1800,
+    "thumbnail": "No-Img",
+    "code": "gbs-lp",
+    "stock": 19,
+    "id": 10
   }
 ]
