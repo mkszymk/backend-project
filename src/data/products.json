@@ -1,1 +1,145 @@
-[{"title":"iPhone 14","description":"Celular iPhone 14","price":1000,"thumbnail":"NO-IMG","code":"iphone14","stock":17,"status":true,"category":"phones","id":0},{"title":"Samsung S23","description":"Celular Samsung S23","price":1100,"thumbnail":"NO-IMG","code":"samsungs23","stock":23,"status":true,"category":"phones","id":1},{"title":"Huawei Nova 10","description":"Celular Huawei Nova 10","price":480,"thumbnail":"NO-IMG","code":"huawein10","stock":32,"status":true,"category":"phones","id":2},{"title":"Xiaomi 12","description":"Celular Xiaomi 12","price":850,"thumbnail":"NO-IMG","code":"xiaomi12","stock":11,"status":true,"category":"phones","id":3},{"title":"OnePlus 11","description":"Celular OnePlus 11","price":699,"thumbnail":"NO-IMG","code":"oneplus11","stock":18,"status":true,"category":"phones","id":4},{"title":"Motorola Edge 20 Pro","description":"Celular Motorola Edge 20 Pro","price":630,"thumbnail":"NO-IMG","code":"moto20pro","stock":22,"status":true,"category":"phones","id":5},{"title":"MSI GF63","description":"Notebook Gamer MSI","price":1100,"thumbnail":"NO-IMG","code":"msigf63","stock":23,"status":true,"category":"computer","id":6},{"title":"Dell G15","description":"Notebook Gamer Dell","price":1500,"thumbnail":"NO-IMG","code":"dellg15","stock":32,"status":true,"category":"computer","id":7},{"title":"Xbox Series X","description":"Consola de videojuegos","price":980,"thumbnail":"NO-IMG","code":"xboxsx","stock":11,"status":true,"category":"consoles","id":8},{"title":"Playstation 5","description":"Consola de videojuegos","price":999,"thumbnail":"NO-IMG","code":"ps5","stock":18,"status":true,"category":"consoles","id":9},{"title":"Gibson Les Paul","description":"Guitarra eléctrica","price":1800,"thumbnail":"No-Img","code":"gb-lp","stock":14,"status":true,"category":"guitar","id":10},{"title":"Fender Stratocaster","description":"Guitarra eléctrica","price":1300,"thumbnail":"noimg","code":"fender-str","stock":11,"status":true,"category":"guitar","id":11},{"title":"Fender Telecaster","description":"Guitarra eléctrica","price":1400,"thumbnail":"no-img","code":"fender-tel","stock":7,"status":true,"category":"guitar","id":12}]
+[
+  {
+    "title": "iPhone 14",
+    "description": "Celular iPhone 14",
+    "price": 1000,
+    "thumbnail": "NO-IMG",
+    "code": "iphone14",
+    "stock": 17,
+    "status": true,
+    "category": "phones",
+    "id": 0
+  },
+  {
+    "title": "Samsung S23",
+    "description": "Celular Samsung S23",
+    "price": 1100,
+    "thumbnail": "NO-IMG",
+    "code": "samsungs23",
+    "stock": 23,
+    "status": true,
+    "category": "phones",
+    "id": 1
+  },
+  {
+    "title": "Huawei Nova 10",
+    "description": "Celular Huawei Nova 10",
+    "price": 480,
+    "thumbnail": "NO-IMG",
+    "code": "huawein10",
+    "stock": 32,
+    "status": true,
+    "category": "phones",
+    "id": 2
+  },
+  {
+    "title": "Xiaomi 12",
+    "description": "Celular Xiaomi 12",
+    "price": 850,
+    "thumbnail": "NO-IMG",
+    "code": "xiaomi12",
+    "stock": 11,
+    "status": true,
+    "category": "phones",
+    "id": 3
+  },
+  {
+    "title": "OnePlus 11",
+    "description": "Celular OnePlus 11",
+    "price": 699,
+    "thumbnail": "NO-IMG",
+    "code": "oneplus11",
+    "stock": 18,
+    "status": true,
+    "category": "phones",
+    "id": 4
+  },
+  {
+    "title": "Motorola Edge 20 Pro",
+    "description": "Celular Motorola Edge 20 Pro",
+    "price": 630,
+    "thumbnail": "NO-IMG",
+    "code": "moto20pro",
+    "stock": 22,
+    "status": true,
+    "category": "phones",
+    "id": 5
+  },
+  {
+    "title": "MSI GF63",
+    "description": "Notebook Gamer MSI",
+    "price": 1100,
+    "thumbnail": "NO-IMG",
+    "code": "msigf63",
+    "stock": 23,
+    "status": true,
+    "category": "computer",
+    "id": 6
+  },
+  {
+    "title": "Dell G15",
+    "description": "Notebook Gamer Dell",
+    "price": 1500,
+    "thumbnail": "NO-IMG",
+    "code": "dellg15",
+    "stock": 32,
+    "status": true,
+    "category": "computer",
+    "id": 7
+  },
+  {
+    "title": "Xbox Series X",
+    "description": "Consola de videojuegos",
+    "price": 980,
+    "thumbnail": "NO-IMG",
+    "code": "xboxsx",
+    "stock": 11,
+    "status": true,
+    "category": "consoles",
+    "id": 8
+  },
+  {
+    "title": "Playstation 5",
+    "description": "Consola de videojuegos",
+    "price": 999,
+    "thumbnail": "NO-IMG",
+    "code": "ps5",
+    "stock": 18,
+    "status": true,
+    "category": "consoles",
+    "id": 9
+  },
+  {
+    "title": "Gibson Les Paul",
+    "description": "Guitarra eléctrica",
+    "price": 1800,
+    "thumbnail": "No-Img",
+    "code": "gb-lp",
+    "stock": 14,
+    "status": true,
+    "category": "guitar",
+    "id": 10
+  },
+  {
+    "title": "Fender Stratocaster",
+    "description": "Guitarra eléctrica",
+    "price": 1300,
+    "thumbnail": "noimg",
+    "code": "fender-str",
+    "stock": 11,
+    "status": true,
+    "category": "guitar",
+    "id": 11
+  },
+  {
+    "title": "Fender Telecaster",
+    "description": "Guitarra eléctrica",
+    "price": 1400,
+    "thumbnail": "no-img",
+    "code": "fender-tel",
+    "stock": 7,
+    "status": true,
+    "category": "guitar",
+    "id": 12
+  }
+]
