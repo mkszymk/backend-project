@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProductManager from "../ProductManager.js";
+import ProductManager from "../dao/managers/FileSystem/ProductManager.js";
 
 const productManager = new ProductManager();
 
@@ -12,6 +12,10 @@ router.get("/home", async (req, res) => {
 
 router.get("/realtimeproducts", async (req, res) => {
   res.render("realtimeproducts", { style: "style.css" });
+});
+
+router.get("/chat", async (req, res) => {
+  res.render("chat", { style: "chat.css" });
 });
 
 export default router;

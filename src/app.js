@@ -4,10 +4,12 @@ import viewsRouter from "./routes/views.router.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
+import ProductManager from "./dao/managers/FileSystem/ProductManager.js";
 import { Server } from "socket.io";
-import ProductManager from "./ProductManager.js";
+import DBMessageManager from "./dao/managers/DB/MessageManager.db.js";
 
 const productManager = new ProductManager();
+const messageManager = new DBMessageManager();
 
 const app = express();
 
@@ -34,6 +36,7 @@ const socketServer = new Server(httpServer);
 socketServer.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado");
   socket.emit("updateList", await productManager.getProducts());
+  socket.emit("updateChat", await messageManager.getChats());
 
   socket.on("addProduct", async (data) => {
     const addProdResponse = await productManager.addProduct(
@@ -47,5 +50,10 @@ socketServer.on("connection", async (socket) => {
       data.category
     );
     socket.emit("updateList", await productManager.getProducts());
+  });
+
+  socket.on("sendMessage", async (data) => {
+    await messageManager.addChat(data.user, data.message);
+    socketServer.emit("updateChat", await messageManager.getChats());
   });
 });

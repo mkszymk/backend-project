@@ -1,8 +1,9 @@
 import fs from "fs";
+import __dirname from "../../../utils.js";
 
 class CartManager {
   constructor() {
-    this.path = "./src/data/carts.json";
+    this.path = __dirname + "/dao/managers/FileSystem/data/carts.json";
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, "[]");
     }

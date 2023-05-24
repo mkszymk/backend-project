@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import db from "./db.js";
 
 const productsCollection = "products";
 
@@ -13,4 +14,4 @@ const productsSchema = new mongoose.Schema({
   category: { type: String, required: true },
 });
 
-export const productsModel = mongoose.model(productsCollection, productsSchema);
+export const productsModel = db.model(productsCollection, productsSchema);

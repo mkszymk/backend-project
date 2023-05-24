@@ -1,0 +1,18 @@
+<div class="mainChatContainer">
+
+  <div class="chatMessagesContainer" id="chatMessagesContainer"> </div>
+
+  <form class="chatForm" id="sendMessageForm">
+    <input type="text" placeholder="Nombre" id="userInput" />
+    <div class="messageBoxContainer"><input
+        type="text"
+        placeholder="Mensaje"
+        id="chatMessage"
+        autocomplete="off"
+      />
+      <input type="submit" class="submitBtn" /></div>
+  </form>
+
+</div>
+<script src="socket.io/socket.io.js"></script>
+<script src="/static/js/chat.js"></script>

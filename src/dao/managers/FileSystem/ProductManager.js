@@ -1,8 +1,9 @@
 import fs from "fs";
+import __dirname from "../../../utils.js";
 
 class ProductManager {
   constructor() {
-    this.path = "./src/data/products.json";
+    this.path = __dirname + "/dao/managers/FileSystem/data/products.json";
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, "[]");
     }
