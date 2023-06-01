@@ -39,34 +39,4 @@ router.get("/:cid", async (req, res) => {
   res.send({ cart });
 });
 
-//*********************
-//***FILESYSTEM API:***
-//*********************
-
-router.post("/fs/", async (req, res) => {
-  const addCartResponse = await cartManager.addCart();
-  res.send(addCartResponse);
-});
-
-router.get("/fs/:cid", async (req, res) => {
-  const cartId = req.params.cid;
-  const cart = await cartManager.getCartById(parseInt(cartId));
-  if (cart.error) return res.sendStatus(cart.error);
-  res.send({ cart });
-});
-
-router.post("/fs/:cid/product/:pid", async (req, res) => {
-  const cartId = req.params.cid;
-  const productId = req.params.pid;
-  const { quantity } = req.body;
-  const addProductResponse = await cartManager.addProductToCart(
-    parseInt(cartId),
-    parseInt(productId),
-    parseInt(quantity) ? parseInt(quantity) : 1
-  );
-  if (addProductResponse.error)
-    return res.status(addProductResponse.error).send(addProductResponse);
-  res.send(addProductResponse);
-});
-
 export default router;
