@@ -1,8 +1,6 @@
 import { Router } from "express";
-import ProductManager from "../dao/managers/FileSystem/ProductManager.js";
 import DBProductManager from "../dao/managers/DB/ProductManager.db.js";
 
-const productManager = new ProductManager();
 const dbProductManager = new DBProductManager();
 const router = Router();
 
@@ -12,8 +10,17 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    let { limit } = req.query;
-    res.send(await dbProductManager.getProducts(limit ? limit : 10));
+    let { limit, page, query, sort } = req.query;
+    let _limit = parseInt(limit);
+    let _page = parseInt(page);
+    res.send(
+      await dbProductManager.getProducts(
+        _limit ? _limit : 10,
+        _page > 0 ? _page : 1,
+        query,
+        sort
+      )
+    );
   } catch (error) {
     console.log("Error: " + error);
   }

@@ -65,10 +65,46 @@ class DBProductManager {
     }
   }
 
-  async getProducts(limit) {
-    const _limit = parseInt(limit);
-    let products = await productsModel.find().limit(_limit);
-    return { result: "success", payload: products };
+  async getProducts(_limit, _page, _query, _sort) {
+    if (_sort != "asc" && _sort != "desc" && _sort != undefined && _sort != "")
+      return { error: 422, message: "422 - Sort query must be asc or desc." };
+    let {
+      docs,
+      totalPages,
+      page,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+    } = await productsModel.paginate(_query ? { category: _query } : {}, {
+      limit: _limit,
+      page: _page,
+      sort: { price: _sort },
+    });
+    if (_page > totalPages || parseInt(_page) < 1) {
+      return { error: 404, message: "404 - Page not found or empty." };
+    }
+    return {
+      result: "success",
+      payload: docs,
+      limit: _limit,
+      totalPages,
+      prevPage,
+      nextPage,
+      page,
+      hasPrevPage,
+      hasNextPage,
+      prevLink: hasPrevPage
+        ? `http://localhost:8080/api/products/?page=${prevPage}&limit=${
+            _limit ? _limit : ""
+          }&query=${_query ? _query : ""}&sort=${_sort ? _sort : ""}`
+        : null,
+      nextLink: hasNextPage
+        ? `http://localhost:8080/api/products/?page=${nextPage}&limit=${
+            _limit ? _limit : ""
+          }&query=${_query ? _query : ""}&sort=${_sort ? _sort : ""}`
+        : null,
+    };
   }
 
   async deleteProduct(id) {
