@@ -95,12 +95,12 @@ class DBProductManager {
       hasPrevPage,
       hasNextPage,
       prevLink: hasPrevPage
-        ? `http://localhost:8080/api/products/?page=${prevPage}&limit=${
+        ? `http://localhost:8080/products/?page=${prevPage}&limit=${
             _limit ? _limit : ""
           }&query=${_query ? _query : ""}&sort=${_sort ? _sort : ""}`
         : null,
       nextLink: hasNextPage
-        ? `http://localhost:8080/api/products/?page=${nextPage}&limit=${
+        ? `http://localhost:8080/products/?page=${nextPage}&limit=${
             _limit ? _limit : ""
           }&query=${_query ? _query : ""}&sort=${_sort ? _sort : ""}`
         : null,

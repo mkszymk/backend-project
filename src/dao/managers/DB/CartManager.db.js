@@ -94,7 +94,6 @@ class DBCartManager {
         const productIndex = cart.products
           .map((p) => p.product._id.toString())
           .indexOf(productId);
-        console.log(productIndex);
         cart.products.splice(productIndex, 1);
         await cart.save();
         return {

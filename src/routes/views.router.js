@@ -1,21 +1,21 @@
 import { Router } from "express";
-import ProductManager from "../dao/managers/FileSystem/ProductManager.js";
-
-const productManager = new ProductManager();
 
 const router = Router();
 
-router.get("/home", async (req, res) => {
-  const products = await productManager.getProducts();
-  res.render("home", { style: "style.css", products });
+router.get("/products", async (req, res) => {
+  const { page } = req.query || 1;
+  const products = await (
+    await fetch("http://localhost:8080/api/products?page=" + page)
+  ).json();
+  res.render("home", { style: "style.css", products: await products });
 });
 
-router.get("/realtimeproducts", async (req, res) => {
-  res.render("realtimeproducts", { style: "style.css" });
-});
-
-router.get("/chat", async (req, res) => {
-  res.render("chat", { style: "chat.css" });
+router.get("/cart/:cid", async (req, res) => {
+  const cartId = req.params.cid;
+  const cart = await (
+    await fetch("http://localhost:8080/api/carts/" + cartId)
+  ).json();
+  res.render("cart", { style: "style.css", cart: await cart });
 });
 
 export default router;

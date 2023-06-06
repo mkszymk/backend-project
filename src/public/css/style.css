@@ -50,3 +50,37 @@ form{
 .homeTable{
     width: 100%;
 }
+
+h1{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.buttonsDiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap:2rem;
+}
+
+.pageBtn{
+    all: unset;
+    background-color: rgb(51, 125, 177);
+    padding: 3px 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.pageBtn:hover{
+    background-color: rgb(35, 84, 119);
+}
+
+a{
+    color: blue;
+    cursor: pointer;
+}
+
+.seeCart, .seeProducts{
+    display: flex;
+    justify-content: center;
+}

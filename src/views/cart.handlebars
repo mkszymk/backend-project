@@ -1,0 +1,32 @@
+<h1>Carrito</h1>
+<a href="http://localhost:8080/products" class="seeProducts">VER PRODUCTOS</a>
+<div class="homeTableContainer">
+  <table class="homeTable">
+    <thead>
+      <tr>
+        <th>
+          Producto
+        </th>
+        <th>
+          Código
+        </th>
+        <th>
+          Precio
+        </th>
+        <th>
+          Cantidad
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cart.cart.products}}
+        <tr>
+          <td>{{this.product.title}}</td>
+          <td>{{this.product.code}}</td>
+          <td>{{this.product.price}}</td>
+          <td>{{this.quantity}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
