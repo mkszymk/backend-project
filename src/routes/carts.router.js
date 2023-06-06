@@ -33,8 +33,34 @@ router.post("/:cid/product/:pid", async (req, res) => {
 router.get("/:cid", async (req, res) => {
   const cartId = req.params.cid;
   const cart = await dbCartManager.getCartById(cartId);
-  if (cart.error) return res.sendStatus(cart.error);
+  if (await cart.error) return res.sendStatus(cart.error);
   res.send({ cart });
+});
+
+router.delete("/:cid/products/:pid", async (req, res) => {
+  const cartId = req.params.cid;
+  const productId = req.params.pid;
+  const apiResponse = await dbCartManager.removeProductOfCart(
+    cartId,
+    productId
+  );
+  if (apiResponse.error) return res.status(apiResponse.error).send(apiResponse);
+  res.send(apiResponse);
+});
+
+router.put("/:cid", async (req, res) => {
+  const cartId = req.params.cid;
+  const products = req.body;
+  const apiResponse = await dbCartManager.replaceProducts(cartId, products);
+  if (apiResponse.error) return res.status(apiResponse.error).send(apiResponse);
+  res.send(apiResponse);
+});
+
+router.delete("/:cid", async (req, res) => {
+  const cartId = req.params.cid;
+  const apiResponse = await dbCartManager.emptyCart(cartId);
+  if (apiResponse.error) return res.status(apiResponse.error).send(apiResponse);
+  res.send(apiResponse);
 });
 
 export default router;

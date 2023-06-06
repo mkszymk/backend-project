@@ -5,7 +5,14 @@ import mongoosePaginate from "mongoose-paginate-v2";
 const cartsCollection = "carts";
 
 const cartsSchema = new mongoose.Schema({
-  products: { type: Array },
+  products: {
+    type: [
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+        quantity: Number,
+      },
+    ],
+  },
 });
 
 cartsSchema.plugin(mongoosePaginate);
