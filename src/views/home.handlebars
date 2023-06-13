@@ -1,9 +1,21 @@
+<div class="accountData">
+  <p>Bienvenido, {{name}} {{lastName}}</p>
+  <p>{{email}}</p>
+  <p>Edad: {{age}}</p>
+  {{#if admin}}
+    <p>Rol: ADMIN</p>
+  {{/if}}
+  <a href="http://localhost:8080/logout" class="logoutA"><button
+      class="logoutBtn"
+    >Cerrar sesión</button></a>
+</div>
 <h1>Productos disponibles</h1>
 <h2>Página: {{products.page}}/{{products.totalPages}}</h2>
 <a
   href="http://localhost:8080/cart/647fa06e21c39367194b8470"
   class="seeCart"
 >VER CARRITO</a>
+
 <div class="homeTableContainer">
   <table class="homeTable">
     <thead>

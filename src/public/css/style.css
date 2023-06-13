@@ -84,3 +84,28 @@ a{
     display: flex;
     justify-content: center;
 }
+
+.accountData{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 3rem;
+    background-color: black;
+    color: white;
+}
+
+.logoutA{
+    all: unset;
+}
+
+.logoutBtn{
+    all: unset;
+    background-color: rgb(245, 90, 90);
+    padding: 3px;
+    border-radius: 2px;
+}
+
+.logoutBtn:hover{
+    background-color: rgb(244, 120, 120);
+    cursor: default;
+}

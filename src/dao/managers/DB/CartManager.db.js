@@ -1,5 +1,4 @@
 import { cartsModel } from "../../models/carts.model.js";
-import mongoose from "mongoose";
 
 class DBCartManager {
   async addCart() {

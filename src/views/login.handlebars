@@ -1,0 +1,13 @@
+<div class="mainContainer">
+  <div class="dataContainer">
+    <h1>INICIAR SESIÓN</h1>
+    <form action="http://localhost:8080/login" method="post">
+      <input type="email" name="email" placeholder="Email" />
+      <input type="password" name="password" placeholder="Contraseña" />
+      <button>Ingresar</button>
+    </form>
+    {{#if code}}
+      <p class="error">{{message}}</p>
+    {{/if}}
+    <p>¿No tienes usuario? <a href="/register">¡Regístrate!</a></p></div>
+</div>
