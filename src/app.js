@@ -5,6 +5,8 @@ import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import session from "express-session";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 
@@ -20,6 +22,11 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+initializePassport();
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/static", express.static(__dirname + "/public"));
 

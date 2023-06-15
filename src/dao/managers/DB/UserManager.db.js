@@ -1,4 +1,5 @@
 import { usersModel } from "../../models/user.model.js";
+import { isValidPassword } from "../../../utils.js";
 
 class UserManager {
   adminData = {
@@ -46,7 +47,7 @@ class UserManager {
         };
       } else {
         try {
-          const user = await usersModel.findOne({ email, password });
+          const user = await usersModel.findOne({ email });
           if (!user) {
             return {
               login: false,
@@ -54,6 +55,12 @@ class UserManager {
               message: "Error en usuario o contraseña.",
             };
           } else {
+            if (!isValidPassword(user, password))
+              return {
+                login: false,
+                code: 403,
+                message: "Contraseña incorrecta",
+              };
             return { login: true, code: 200, user };
           }
         } catch (error) {
@@ -95,6 +102,19 @@ class UserManager {
       } catch (error) {
         return { success: false, error };
       }
+    }
+  }
+
+  async restorePassword(email, newPassword) {
+    try {
+      const user = await usersModel.findOne({ email });
+      if (!user)
+        return { success: false, code: 404, message: "Email incorrecto." };
+      user.password = newPassword;
+      await user.save();
+      return { success: true };
+    } catch (error) {
+      return { success: false, error };
     }
   }
 }

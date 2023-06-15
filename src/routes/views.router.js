@@ -1,5 +1,7 @@
 import { Router } from "express";
+import { createHash } from "../utils.js";
 import UserManager from "../dao/managers/DB/UserManager.db.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -45,7 +47,7 @@ router.get("/cart/:cid", async (req, res) => {
   res.render("cart", { style: "style.css", cart: await cart });
 });
 
-router.get("/login", publicRoute, (req, res) => {
+router.get("/login", publicRoute, async (req, res) => {
   res.render("login", {
     style: "credentials.css",
     code: req.query.e,
@@ -53,43 +55,65 @@ router.get("/login", publicRoute, (req, res) => {
   });
 });
 
-router.get("/register", publicRoute, (req, res) => {
+router.get("/register", publicRoute, async (req, res) => {
   res.render("register", { style: "credentials.css" });
 });
 
-router.post("/register", publicRoute, async (req, res) => {
-  const { name, lastName, age, email, password } = req.body;
-
-  const apiResponse = await userManager.registerUser(
-    email,
-    password,
-    name,
-    lastName,
-    parseInt(age)
-  );
-
-  if (!apiResponse.success) return res.redirect("/register");
-  return res.redirect("/login");
-});
-
-router.post("/login", publicRoute, async (req, res) => {
-  const { email, password } = req.body;
-  const apiResponse = await userManager.loginUser(email, password);
-  if (apiResponse.login) {
-    req.session.user = apiResponse.user;
-    res.redirect("/products");
-  } else {
-    res.redirect("/login?e=" + apiResponse.code + "&m=" + apiResponse.message);
+router.post(
+  "/register",
+  passport.authenticate("register", { failureRedirect: "/register" }),
+  async (req, res) => {
+    res.redirect("/login");
   }
-});
+);
+
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    failureRedirect: "/login?e=400&m=Credenciales inválidas",
+  }),
+  async (req, res) => {
+    if (!req.user) return res.redirect("/login?e=400&m=Credenciales inválidas");
+    req.session.user = {
+      name: req.user.name,
+      lastName: req.user.lastName,
+      age: req.user.age,
+      email: req.user.email,
+    };
+    res.redirect("/products");
+  }
+);
 
 router.get("/", publicRoute, async (req, res) => {
   res.redirect("/login");
 });
 
-router.get("/logout", privateRoute, (req, res) => {
+router.get("/logout", privateRoute, async (req, res) => {
   req.session.destroy();
   res.redirect("/login");
+});
+
+router.get("/lostpassword", publicRoute, async (req, res) => {
+  res.render("lostpassword", {
+    style: "credentials.css",
+    code: req.query.e,
+    message: req.query.m,
+  });
+});
+
+router.post("/lostpassword", publicRoute, async (req, res) => {
+  const { email, password } = req.body;
+  const apiResponse = await userManager.restorePassword(
+    email,
+    createHash(password)
+  );
+  if (apiResponse.success) {
+    res.redirect("/login");
+  } else {
+    res.redirect(
+      "/lostpassword?e=" + apiResponse.code + "&m=" + apiResponse.message
+    );
+  }
 });
 
 export default router;
