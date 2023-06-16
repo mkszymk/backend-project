@@ -19,7 +19,7 @@ const publicRoute = (req, res, next) => {
   if (!req.session.user) {
     next();
   } else {
-    res.redirect("/profile");
+    res.redirect("/products");
   }
 };
 
@@ -115,5 +115,23 @@ router.post("/lostpassword", publicRoute, async (req, res) => {
     );
   }
 });
+
+router.get(
+  "/api/sessions/github",
+  passport.authenticate(
+    "github",
+    { scope: ["user:email"] },
+    async (req, res) => {}
+  )
+);
+
+router.get(
+  "/api/sessions/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    req.session.user = req.user;
+    res.redirect("/products");
+  }
+);
 
 export default router;
