@@ -3,8 +3,8 @@ import { cartsModel } from "../../models/carts.model.js";
 class DBCartManager {
   async addCart() {
     try {
-      await cartsModel.create({});
-      return { success: true };
+      let cart = await cartsModel.create({});
+      return { success: true, cartId: cart._id };
     } catch (error) {
       return { error: 500, mongoError: error };
     }

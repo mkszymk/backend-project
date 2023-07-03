@@ -1,3 +1,4 @@
+{{! prettier-ignore }}
 <div class="accountData">
   <p>Bienvenido, {{name}} {{lastName}}</p>
   <p>{{email}}</p>
@@ -11,11 +12,8 @@
 </div>
 <h1>Productos disponibles</h1>
 <h2>Página: {{products.page}}/{{products.totalPages}}</h2>
-<a
-  href="http://localhost:8080/cart/647fa06e21c39367194b8470"
-  class="seeCart"
->VER CARRITO</a>
-
+<a href="http://localhost:8080/cart/" class="seeCart">VER CARRITO</a>
+{{! prettier-ignore }}
 <div class="homeTableContainer">
   <table class="homeTable">
     <thead>
@@ -40,6 +38,7 @@
         </th>
       </tr>
     </thead>
+    {{! prettier-ignore }}
     <tbody>
       {{#each products.payload}}
         <tr>
@@ -48,9 +47,9 @@
           <td>{{this.category}}</td>
           <td>{{this.stock}}</td>
           <td>{{this.price}}</td>
-          <td><a
-              onclick="addProductToCart('647fa06e21c39367194b8470','{{this._id}}')"
-            >Agregar al carrito</a></td>
+
+          <td><a onclick="addProductToCart('{{../cart}}','{{this._id}}')">Agregar
+              al carrito</a></td>
         </tr>
       {{/each}}
     </tbody>

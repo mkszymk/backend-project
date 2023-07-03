@@ -3,7 +3,9 @@ import local from "passport-local";
 import GitHubStrategy from "passport-github2";
 import { usersModel } from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
+import DBCartManager from "../dao/managers/DB/CartManager.db.js";
 
+const cartManager = new DBCartManager();
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
   passport.use(
@@ -18,7 +20,7 @@ const initializePassport = () => {
         try {
           let user = await usersModel.findOne({ email: username });
           if (user) {
-            return done(null, flase);
+            return done(null, false);
           }
           const newUser = {
             name,
@@ -26,11 +28,12 @@ const initializePassport = () => {
             email,
             age,
             password: createHash(password),
+            cart: (await cartManager.addCart()).cartId,
           };
           let result = await usersModel.create(newUser);
           return done(null, result);
-        } catch (e) {
-          return done("Error al obtener el user: " + error);
+        } catch (error) {
+          return done(error);
         }
       }
     )
@@ -66,14 +69,19 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           console.log(profile);
-          let user = await usersModel.findOne({ email: profile._json.email });
+          let user =
+            (await usersModel.findOne({ email: profile._json.email })) ||
+            (await usersModel.findOne({ email: profile.username }));
           if (!user) {
             let newUser = {
               name: profile._json.name,
               lastName: "",
               age: 22,
-              email: profile._json.email,
+              email: profile._json.email
+                ? profile._json.email
+                : profile.username,
               password: "",
+              cart: (await cartManager.addCart()).cartId,
             };
             let result = await usersModel.create(newUser);
             done(null, result);

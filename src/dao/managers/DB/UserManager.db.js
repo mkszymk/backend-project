@@ -88,6 +88,7 @@ class UserManager {
             message: "Not found.",
           };
         } else {
+          console.log(user);
           return {
             success: true,
             payload: {
@@ -96,6 +97,7 @@ class UserManager {
               email: user.email,
               age: user.age,
               role: user.role,
+              cart: user.cart,
             },
           };
         }

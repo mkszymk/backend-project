@@ -39,8 +39,8 @@ router.get("/products", privateRoute, async (req, res) => {
   });
 });
 
-router.get("/cart/:cid", async (req, res) => {
-  const cartId = req.params.cid;
+router.get("/cart/", async (req, res) => {
+  const cartId = req.session.user.cart;
   const cart = await (
     await fetch("http://localhost:8080/api/carts/" + cartId)
   ).json();
@@ -79,6 +79,7 @@ router.post(
       lastName: req.user.lastName,
       age: req.user.age,
       email: req.user.email,
+      cart: req.user.cart,
     };
     res.redirect("/products");
   }

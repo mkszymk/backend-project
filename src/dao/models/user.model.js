@@ -9,6 +9,7 @@ const usersSchema = new mongoose.Schema({
   email: String,
   age: Number,
   password: String,
+  cart: String,
   role: String,
 });
 
