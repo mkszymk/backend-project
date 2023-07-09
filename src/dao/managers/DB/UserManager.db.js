@@ -1,11 +1,12 @@
 import { usersModel } from "../../models/user.model.js";
 import { isValidPassword } from "../../../utils.js";
+import config from "../../../config/config.js";
 
 class UserManager {
   adminData = {
     name: "Coderhouse",
     lastName: "Coderhouse",
-    email: "adminCoder@coder.com",
+    email: config.adminEmail,
     age: 0,
     role: "admin",
   };
@@ -39,7 +40,7 @@ class UserManager {
 
   async loginUser(email, password) {
     if (email && password) {
-      if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+      if (email === config.adminEmail && password === config.adminPassword) {
         return {
           login: true,
           code: 200,
@@ -106,18 +107,7 @@ class UserManager {
     }
   }
 
-  async restorePassword(email, newPassword) {
-    try {
-      const user = await usersModel.findOne({ email });
-      if (!user)
-        return { success: false, code: 404, message: "Email incorrecto." };
-      user.password = newPassword;
-      await user.save();
-      return { success: true };
-    } catch (error) {
-      return { success: false, error };
-    }
-  }
+  async restorePassword(email, newPassword) {}
 }
 
 export default UserManager;

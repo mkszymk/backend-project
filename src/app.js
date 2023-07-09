@@ -8,6 +8,7 @@ import __dirname from "./utils.js";
 import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import config from "./config/config.js";
 
 const app = express();
 
@@ -39,6 +40,6 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
 
-const httpServer = app.listen(8080, () => {
-  console.log("Escuchando en 8080");
+const httpServer = app.listen(config.port, () => {
+  console.log("Escuchando en " + config.port);
 });

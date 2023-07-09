@@ -4,6 +4,7 @@ import GitHubStrategy from "passport-github2";
 import { usersModel } from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import DBCartManager from "../dao/managers/DB/CartManager.db.js";
+import config from "./config.js";
 
 const cartManager = new DBCartManager();
 const LocalStrategy = local.Strategy;
@@ -40,6 +41,24 @@ const initializePassport = () => {
   );
 
   passport.use(
+    "restorePassword",
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (username, newPassword, done) => {
+        try {
+          const user = await usersModel.findOne({ email: username });
+          if (!user) return done(null, false);
+          user.password = createHash(newPassword);
+          await user.save();
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
     "login",
     new LocalStrategy(
       { usernameField: "email" },
@@ -62,8 +81,8 @@ const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.a7914ca40b5b4c65",
-        clientSecret: "82a4ed910dd1044a722917259738a8ffe4e137a5",
+        clientID: config.githubClientId,
+        clientSecret: config.githubClientSecret,
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
@@ -75,7 +94,7 @@ const initializePassport = () => {
             let newUser = {
               name: profile._json.name,
               lastName: "",
-              age: 22,
+              age: 0,
               email: profile._json.email
                 ? profile._json.email
                 : profile.username,

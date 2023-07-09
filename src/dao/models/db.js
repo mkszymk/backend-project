@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import config from "../../config/config.js";
 
-mongoose.connect(
-  "mongodb+srv://admin:admindb@ecommercebackend.frngmnt.mongodb.net/?retryWrites=true&w=majority"
-);
+mongoose.connect(config.mongoUrl);
 
 const db = mongoose.connection;
 

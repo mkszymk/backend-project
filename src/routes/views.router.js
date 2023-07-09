@@ -102,19 +102,14 @@ router.get("/lostpassword", publicRoute, async (req, res) => {
   });
 });
 
-router.post("/lostpassword", publicRoute, async (req, res) => {
-  const { email, password } = req.body;
-  const apiResponse = await userManager.restorePassword(
-    email,
-    createHash(password)
-  );
-  if (apiResponse.success) {
+router.post(
+  "/lostpassword",
+  passport.authenticate("restorePassword", {
+    failureRedirect: "/lostpassword?e=404&m=Email not found",
+  }),
+  async (req, res) => {
     res.redirect("/login");
-  } else {
-    res.redirect(
-      "/lostpassword?e=" + apiResponse.code + "&m=" + apiResponse.message
-    );
   }
-});
+);
 
 export default router;
