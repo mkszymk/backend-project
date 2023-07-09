@@ -88,7 +88,6 @@ class UserManager {
             message: "Not found.",
           };
         } else {
-          console.log(user);
           return {
             success: true,
             payload: {

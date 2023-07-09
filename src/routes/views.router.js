@@ -39,7 +39,7 @@ router.get("/products", privateRoute, async (req, res) => {
   });
 });
 
-router.get("/cart/", async (req, res) => {
+router.get("/cart/", privateRoute, async (req, res) => {
   const cartId = req.session.user.cart;
   const cart = await (
     await fetch("http://localhost:8080/api/carts/" + cartId)
@@ -116,23 +116,5 @@ router.post("/lostpassword", publicRoute, async (req, res) => {
     );
   }
 });
-
-router.get(
-  "/api/sessions/github",
-  passport.authenticate(
-    "github",
-    { scope: ["user:email"] },
-    async (req, res) => {}
-  )
-);
-
-router.get(
-  "/api/sessions/githubcallback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  async (req, res) => {
-    req.session.user = req.user;
-    res.redirect("/products");
-  }
-);
 
 export default router;

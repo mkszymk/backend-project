@@ -6,11 +6,11 @@ const usersCollection = "users";
 const usersSchema = new mongoose.Schema({
   name: String,
   lastName: String,
-  email: String,
+  email: { type: String, unique: true },
   age: Number,
   password: String,
-  cart: String,
-  role: String,
+  cart: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
+  role: { type: String, default: "user" },
 });
 
 export const usersModel = db.model(usersCollection, usersSchema);

@@ -1,6 +1,7 @@
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
+import sessionsRouter from "./routes/sessions.router.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
@@ -35,6 +36,7 @@ app.set("view engine", "handlebars");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
 
 const httpServer = app.listen(8080, () => {
