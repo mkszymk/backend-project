@@ -3,11 +3,23 @@ import local from "passport-local";
 import GitHubStrategy from "passport-github2";
 import { usersModel } from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
-import DBCartManager from "../dao/managers/DB/CartManager.db.js";
+import { CartManager } from "../services/factory.js";
 import config from "./config.js";
+import UserDTO from "../dao/DTOs/user.dto.js";
+import nodemailer from "nodemailer";
 
-const cartManager = new DBCartManager();
+const cartManager = new CartManager();
 const LocalStrategy = local.Strategy;
+
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: config.gmailUser,
+    pass: config.gmailPassword,
+  },
+});
+
 const initializePassport = () => {
   passport.use(
     "register",
@@ -23,15 +35,29 @@ const initializePassport = () => {
           if (user) {
             return done(null, false);
           }
-          const newUser = {
+          const newUser = new UserDTO({
             name,
             lastName,
             email,
             age,
-            password: createHash(password),
+            password,
             cart: (await cartManager.addCart()).cartId,
-          };
+            source: "register",
+          });
           let result = await usersModel.create(newUser);
+          await transport.sendMail({
+            from: "eCommerce",
+            to: email,
+            subject: "Usuario creado",
+            html: `
+            <div>
+              <h1>Usuario creado!</h1>
+              <h3>Hola ${name}, se ha creado tu usuario en ecommerce.</h3>
+            </div>
+            `,
+            attachments: [],
+          });
+          console.log("Correo enviado!");
           return done(null, result);
         } catch (error) {
           return done(error);
@@ -91,7 +117,7 @@ const initializePassport = () => {
             (await usersModel.findOne({ email: profile._json.email })) ||
             (await usersModel.findOne({ email: profile.username }));
           if (!user) {
-            let newUser = {
+            let newUser = new UserDTO({
               name: profile._json.name,
               lastName: "",
               age: 0,
@@ -100,7 +126,8 @@ const initializePassport = () => {
                 : profile.username,
               password: "",
               cart: (await cartManager.addCart()).cartId,
-            };
+              source: "github",
+            });
             let result = await usersModel.create(newUser);
             done(null, result);
           } else {

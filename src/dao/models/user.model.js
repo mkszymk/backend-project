@@ -11,6 +11,7 @@ const usersSchema = new mongoose.Schema({
   password: String,
   cart: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
   role: { type: String, default: "user" },
+  source: { type: String },
 });
 
 export const usersModel = db.model(usersCollection, usersSchema);

@@ -1,9 +1,9 @@
 import fs from "fs";
-import __dirname from "../../../utils.js";
+import __dirname from "../../utils.js";
 
-class ProductManager {
+class FSProductManager {
   constructor() {
-    this.path = __dirname + "/dao/managers/FileSystem/data/products.json";
+    this.path = __dirname + "/public/data/products.json";
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, "[]");
     }
@@ -107,4 +107,4 @@ class ProductManager {
   }
 }
 
-export default ProductManager;
+export default FSProductManager;

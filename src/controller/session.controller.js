@@ -1,3 +1,5 @@
+import UserDTO from "../dao/DTOs/user.dto.js";
+
 const github = async (req, res) => {};
 
 const githubcallback = async (req, res) => {
@@ -6,7 +8,8 @@ const githubcallback = async (req, res) => {
 };
 
 const current = async (req, res) => {
-  res.status(200).send(req.session.user);
+  const user = new UserDTO(req.user);
+  res.status(200).send(user.getRelevantInfo());
 };
 
 export { github, githubcallback, current };

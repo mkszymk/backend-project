@@ -1,4 +1,4 @@
-import { messagesModel } from "../../models/message.model.js";
+import { messagesModel } from "../../dao/models/message.model.js";
 
 export default class DBMessageManager {
   async addChat(sender, message) {
