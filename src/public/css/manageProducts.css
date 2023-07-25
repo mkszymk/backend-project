@@ -1,0 +1,41 @@
+.mainContainer{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+table{
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table, td, th{
+    border: 1px solid black;
+}
+.homeTableContainer{
+    padding: 2rem;
+}
+
+.homeTable{
+    width: 100%;
+}
+
+.addProductContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.addProductContainer form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.addProductContainer form input, button{
+    width: 80%;
+}

@@ -109,3 +109,12 @@ a{
     background-color: rgb(244, 120, 120);
     cursor: default;
 }
+
+.manageProducts{
+    margin-top: 5px;
+    padding: 6px 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(103, 103, 103);
+}

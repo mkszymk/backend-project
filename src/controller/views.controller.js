@@ -1,3 +1,6 @@
+import UserDTO from "../dao/DTOs/user.dto.js";
+import ProductDTO from "../dao/DTOs/product.dto.js";
+
 const privateRoute = (req, res, next) => {
   if (req.session.user) {
     next();
@@ -11,6 +14,14 @@ const publicRoute = (req, res, next) => {
     next();
   } else {
     res.redirect("/products");
+  }
+};
+
+const adminRoute = (req, res, next) => {
+  if (req.session.user.role == "user") {
+    return res.status(403).send({ error: "403 - Forbidden" });
+  } else {
+    return next();
   }
 };
 
@@ -55,13 +66,8 @@ const postRegister = async (req, res) => {
 
 const postLogin = async (req, res) => {
   if (!req.user) return res.redirect("/login?e=400&m=Credenciales inválidas");
-  req.session.user = {
-    name: req.user.name,
-    lastName: req.user.lastName,
-    age: req.user.age,
-    email: req.user.email,
-    cart: req.user.cart,
-  };
+  let user = new UserDTO(req.user);
+  req.session.user = user.getRelevantInfo();
   res.redirect("/products");
 };
 
@@ -86,6 +92,35 @@ const postLostPassword = async (req, res) => {
   res.redirect("/login");
 };
 
+const getManageProductsPage = async (req, res) => {
+  const products = await (
+    await fetch("http://localhost:8080/api/products?limit=999")
+  ).json();
+  res.render("manageproducts", {
+    style: "manageProducts.css",
+    products: await products,
+  });
+};
+
+const addProduct = async (req, res) => {
+  try {
+    const _product = new ProductDTO(req.body);
+    const product = JSON.stringify(_product);
+    const addProductResponse = (
+      await fetch("http://localhost:8080/api/products/", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: product,
+      })
+    ).json();
+  } catch (e) {
+    return console.log(e);
+  }
+};
+
 export {
   privateRoute,
   publicRoute,
@@ -99,4 +134,7 @@ export {
   getLogoutPage,
   getLostPasswordPage,
   postLostPassword,
+  adminRoute,
+  getManageProductsPage,
+  addProduct,
 };

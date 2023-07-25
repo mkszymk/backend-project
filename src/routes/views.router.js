@@ -13,6 +13,9 @@ import {
   getLogoutPage,
   getLostPasswordPage,
   postLostPassword,
+  adminRoute,
+  getManageProductsPage,
+  addProduct,
 } from "../controller/views.controller.js";
 
 const router = Router();
@@ -52,5 +55,9 @@ router.post(
   }),
   postLostPassword
 );
+
+router.get("/manageproducts", privateRoute, adminRoute, getManageProductsPage);
+
+router.post("/manageproducts", privateRoute, adminRoute, addProduct);
 
 export default router;
