@@ -11,6 +11,11 @@ table{
 table, td, th{
     border: 1px solid black;
 }
+
+tr:hover{
+    background-color: rgb(153, 218, 242);
+}
+
 .homeTableContainer{
     padding: 2rem;
 }
@@ -38,4 +43,9 @@ table, td, th{
 
 .addProductContainer form input, button{
     width: 80%;
+}
+
+a{
+    color: blue;
+    cursor: pointer;
 }

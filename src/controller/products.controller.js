@@ -31,7 +31,6 @@ const addProduct = async (req, res) => {
   const addProductResponse = await productsService.addProduct(
     new ProductDTO(product)
   );
-  console.log(addProductResponse);
   if (addProductResponse.error)
     return res.status(addProductResponse.error).send(addProductResponse);
   return res.status(200).send(addProductResponse);

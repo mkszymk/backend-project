@@ -6,8 +6,12 @@ form.addEventListener("submit", async (e) => {
   const formData = new FormData(form);
   const product = Object.fromEntries(formData.entries());
   const response = await addProduct(product);
-  if (response.success) return alert("Producto agregado!");
-  return alert("Error al agregar el producto.");
+  if (response.success) {
+    alert("Producto agregado!");
+    window.location.reload();
+  } else {
+    return alert("Error al agregar el producto.");
+  }
 });
 
 async function addProduct(product) {
@@ -22,4 +26,13 @@ async function addProduct(product) {
     })
   ).json();
   return await apiResponse;
+}
+
+async function deleteProduct(productId) {
+  const apiResponse = await (
+    await fetch("http://localhost:8080/api/products/" + productId, {
+      method: "DELETE",
+    })
+  ).json();
+  window.location.reload();
 }

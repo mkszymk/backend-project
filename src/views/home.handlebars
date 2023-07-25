@@ -12,7 +12,10 @@
 </div>
 <h1>Productos disponibles</h1>
 <h2>Página: {{products.page}}/{{products.totalPages}}</h2>
-<a href="http://localhost:8080/cart/" class="seeCart">VER CARRITO</a><a href="http://localhost:8080/manageproducts/" class="manageProducts">Administrador: Gestionar productos</a>
+<a href="http://localhost:8080/cart/" class="seeCart">VER CARRITO</a>
+  {{#if admin}}
+<a href="http://localhost:8080/manageproducts/" class="manageProducts">Administrador: Gestionar productos</a>
+  {{/if}}
 {{! prettier-ignore }}
 <div class="homeTableContainer">
   <table class="homeTable">

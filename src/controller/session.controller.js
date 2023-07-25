@@ -13,4 +13,24 @@ const current = async (req, res) => {
   return res.status(200).send(user.getRelevantInfo());
 };
 
-export { github, githubcallback, current };
+const adminRoute = (req, res, next) => {
+  if (!req.session.user)
+    return res.status(400).send({ error: "400 - No session found." });
+  if (req.session.user.role == "user") {
+    return res.status(403).send({ error: "403 - Forbidden" });
+  } else {
+    return next();
+  }
+};
+
+const userRoute = (req, res, next) => {
+  if (!req.session.user)
+    return res.status(400).send({ error: "400 - No session found." });
+  if (req.session.user.role == "admin") {
+    return res.status(403).send({ error: "403 - Forbidden" });
+  } else {
+    return next();
+  }
+};
+
+export { github, githubcallback, current, adminRoute, userRoute };

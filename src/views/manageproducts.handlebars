@@ -1,3 +1,5 @@
+<h3><a href="http://localhost:8080/"><span>&#60;</span>= Volver al menú
+    principal</a></h3>
 <div class="mainContainer">
   <div class="addProductContainer">
     <form id="addProductForm">
@@ -47,7 +49,7 @@
             Precio
           </th>
           <th>
-            Carrito
+            Opción
           </th>
         </tr>
       </thead>
@@ -61,8 +63,7 @@
           <td>{{this.stock}}</td>
           <td>{{this.price}}</td>
 
-          <td>Agregar
-              al carrito</td>
+          <td><a onclick="deleteProduct('{{this._id}}')">Eliminar</a></td>
         </tr>
       {{/each}}
     </tbody>

@@ -1,9 +1,12 @@
 async function addProductToCart(cartId, productId) {
-  const apiResponse = await (
-    await fetch(
+  try {
+    const response = await fetch(
       "http://localhost:8080/api/carts/" + cartId + "/product/" + productId,
       { method: "POST" }
-    )
-  ).json();
-  alert("Producto agregado!!");
+    );
+    if (response.ok) return alert("Producto agregado!");
+    return alert("No se pudo agregar el producto");
+  } catch (e) {
+    alert("No se pudo agregar el producto");
+  }
 }

@@ -8,6 +8,7 @@ import {
   replaceProducts,
   emptyCart,
 } from "../controller/carts.controller.js";
+import { userRoute } from "../controller/session.controller.js";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get("/", getCarts);
 
 router.post("/", addCart);
 
-router.post("/:cid/product/:pid", addProductToCart);
+router.post("/:cid/product/:pid", userRoute, addProductToCart);
 
 router.get("/:cid", getCartById);
 

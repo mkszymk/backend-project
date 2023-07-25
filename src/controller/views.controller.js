@@ -17,14 +17,6 @@ const publicRoute = (req, res, next) => {
   }
 };
 
-const adminRoute = (req, res, next) => {
-  if (req.session.user.role == "user") {
-    return res.status(403).send({ error: "403 - Forbidden" });
-  } else {
-    return next();
-  }
-};
-
 const getProductsPage = async (req, res) => {
   const userData = req.session.user;
   if (!userData) return;
@@ -102,7 +94,7 @@ const getManageProductsPage = async (req, res) => {
   });
 };
 
-const addProduct = async (req, res) => {
+const postAddProduct = async (req, res) => {
   try {
     const _product = new ProductDTO(req.body);
     const product = JSON.stringify(_product);
@@ -134,7 +126,6 @@ export {
   getLogoutPage,
   getLostPasswordPage,
   postLostPassword,
-  adminRoute,
   getManageProductsPage,
-  addProduct,
+  postAddProduct,
 };
