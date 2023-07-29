@@ -1,5 +1,7 @@
 <h1>Carrito</h1>
 <a href="http://localhost:8080/products" class="seeProducts">VER PRODUCTOS</a>
+<div class="emptyCartContainer"><button id="emptyCartBtn">Vaciar carrito</button></div>
+
 <div class="homeTableContainer">
   <table class="homeTable">
     <thead>
@@ -11,10 +13,10 @@
           Código
         </th>
         <th>
-          Precio
+          Cantidad
         </th>
         <th>
-          Cantidad
+          Precio
         </th>
       </tr>
     </thead>
@@ -23,10 +25,16 @@
         <tr>
           <td>{{this.product.title}}</td>
           <td>{{this.product.code}}</td>
-          <td>{{this.product.price}}</td>
           <td>{{this.quantity}}</td>
+          <td>${{this.product.price}}</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+  <div class="purchaseContainer">
+    <h4>Total del carrito: ${{total}}</h4>
+    <button class="purchaseCartBtn" id="purchaseBtn">Comprar</button>
+  </div>
 </div>
+
+<script src="/static/js/cart.js"></script>

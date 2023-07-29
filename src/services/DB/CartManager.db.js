@@ -125,6 +125,49 @@ class DBCartManager {
       return { error: 500, mongoError: error };
     }
   }
+
+  async getCartTotal(cartId) {
+    const cart = await this.getCartById(cartId);
+    const products = await cart.products;
+    const total = products.reduce(
+      (subtotal, product) =>
+        subtotal + product.quantity * product.product.price,
+      0
+    );
+    return total;
+  }
+
+  async getProductsWithStock(cartId) {
+    let productsStocks = [];
+    let productsWithStock = [];
+    let productsWithoutStock = [];
+
+    const cart = await this.getCartById(cartId);
+
+    const products = cart.products;
+    products.forEach((product) => {
+      productsStocks.push({
+        [product.product._id]: {
+          productStock: product.product.stock,
+          purchased: product.quantity,
+        },
+      });
+    });
+
+    productsStocks.forEach((product) => {
+      const productId = Object.keys(product)[0];
+      if (product[productId].productStock >= product[productId].purchased) {
+        productsWithStock.push({
+          id: productId,
+          amount: product[productId].purchased,
+        });
+      } else {
+        productsWithoutStock.push(productId);
+      }
+    });
+
+    return { productsWithStock, productsWithoutStock };
+  }
 }
 
 export default DBCartManager;

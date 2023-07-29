@@ -30,4 +30,9 @@ export default class ProductRepository {
     const result = await this.dao.deleteProduct(id);
     return result;
   }
+
+  async getProductsTotal(products) {
+    const result = await this.dao.getProductsTotal(products);
+    return result;
+  }
 }

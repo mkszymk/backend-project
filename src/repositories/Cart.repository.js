@@ -38,4 +38,12 @@ export default class CartRepository {
   async replaceProducts(cartId, newProducts) {
     return await this.dao.replaceProducts(cartId, newProducts);
   }
+
+  async getCartTotal(cartId) {
+    return await this.dao.getCartTotal(cartId);
+  }
+
+  async getProductsWithStock(cartId) {
+    return await this.dao.getProductsWithStock(cartId);
+  }
 }

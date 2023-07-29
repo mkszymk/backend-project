@@ -115,6 +115,15 @@ class DBProductManager {
       return { error: 500, mongoError: error };
     }
   }
+
+  async getProductsTotal(products) {
+    let total = 0;
+    for await (const product of products) {
+      const price = (await this.getProductById(product.id)).payload.price;
+      total = total + price * product.amount;
+    }
+    return total;
+  }
 }
 
 export default DBProductManager;

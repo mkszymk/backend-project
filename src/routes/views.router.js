@@ -15,9 +15,12 @@ import {
   postLostPassword,
   getManageProductsPage,
   postAddProduct,
+  getTicketPage,
+  postPurchase,
+  deleteEmptyCart,
 } from "../controller/views.controller.js";
 
-import { adminRoute } from "../controller/session.controller.js";
+import { adminRoute, userRoute } from "../controller/session.controller.js";
 
 const router = Router();
 
@@ -60,5 +63,11 @@ router.post(
 router.get("/manageproducts", privateRoute, adminRoute, getManageProductsPage);
 
 router.post("/manageproducts", privateRoute, adminRoute, postAddProduct);
+
+router.get("/ticket/:tid", privateRoute, userRoute, getTicketPage);
+
+router.post("/cart/purchase", privateRoute, userRoute, postPurchase);
+
+router.delete("/cart/empty", privateRoute, userRoute, deleteEmptyCart);
 
 export default router;

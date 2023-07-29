@@ -1,5 +1,9 @@
 import UserDTO from "../dao/DTOs/user.dto.js";
 import ProductDTO from "../dao/DTOs/product.dto.js";
+import TicketManager from "../services/DB/TicketManager.db.js";
+import { cartsService, productsService } from "../repositories/index.js";
+
+const ticketManager = new TicketManager();
 
 const privateRoute = (req, res, next) => {
   if (req.session.user) {
@@ -37,7 +41,9 @@ const getCartPage = async (req, res) => {
   const cart = await (
     await fetch("http://localhost:8080/api/carts/" + cartId)
   ).json();
-  res.render("cart", { style: "style.css", cart: await cart });
+  const total = await cartsService.getCartTotal(cartId);
+  await cartsService.getProductsWithStock(cartId);
+  res.render("cart", { style: "style.css", cart: await cart, total });
 };
 
 const getLoginPage = async (req, res) => {
@@ -113,6 +119,59 @@ const postAddProduct = async (req, res) => {
   }
 };
 
+const getTicketPage = async (req, res) => {
+  const ticketCode = req.params.tid;
+  const ticket = await ticketManager.getTicketByCode(ticketCode);
+  const userEmail = req.user.email;
+  if (ticket.success) {
+    if (ticket.ticket.purchaser == userEmail)
+      return res.render("purchase", {
+        style: "style.css",
+        ticket: ticket.ticket,
+      });
+  } else {
+    return res.redirect("http://localhost:8080/");
+  }
+};
+
+const postPurchase = async (req, res) => {
+  let ticket;
+  const cartId = req.user.cart;
+  const email = req.user.email;
+
+  const productsStock = await cartsService.getProductsWithStock(cartId);
+  if (productsStock.productsWithStock.length > 0) {
+    const productsWithStockTotal = await productsService.getProductsTotal(
+      productsStock.productsWithStock
+    );
+    ticket = await ticketManager.createTicket(productsWithStockTotal, email);
+    if (ticket.success) {
+      for await (const product of productsStock.productsWithStock) {
+        await cartsService.removeProductOfCart(cartId, product.id);
+      }
+      return res.send({ success: true, ticketCode: ticket.ticketCode });
+    } else {
+      return res.status(500).send({ success: false });
+    }
+  } else {
+    return res.status(500).send({ success: false });
+  }
+};
+
+const deleteEmptyCart = async (req, res) => {
+  const cartId = req.user.cart;
+  const apiResponse = await (
+    await fetch("http://localhost:8080/api/carts/" + cartId, {
+      method: "DELETE",
+    })
+  ).json();
+  if (apiResponse.success) {
+    return res.send({ success: true });
+  } else {
+    return res.send({ success: false });
+  }
+};
+
 export {
   privateRoute,
   publicRoute,
@@ -128,4 +187,7 @@ export {
   postLostPassword,
   getManageProductsPage,
   postAddProduct,
+  getTicketPage,
+  postPurchase,
+  deleteEmptyCart,
 };
