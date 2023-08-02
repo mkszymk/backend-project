@@ -9,6 +9,7 @@ import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
+import errorMiddleware from "./middlewares/errors/index.js";
 
 const app = express();
 
@@ -36,9 +37,15 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 app.use("/api/products", productsRouter);
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("---------------------------------------!");
+});
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
+
+app.use(errorMiddleware);
 
 const httpServer = app.listen(config.port, () => {
   console.log("Escuchando en " + config.port);

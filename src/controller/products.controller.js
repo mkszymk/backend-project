@@ -1,5 +1,8 @@
 import ProductDTO from "../dao/DTOs/product.dto.js";
 import { productsService } from "../repositories/index.js";
+import CustomError from "../services/errors/CustomError.js";
+import { generateProductErrorInfo } from "../services/errors/info.js";
+import EErrors from "../services/errors/enums.js";
 
 const getProducts = async (req, res) => {
   try {
@@ -28,6 +31,23 @@ const getProductById = async (req, res) => {
 
 const addProduct = async (req, res) => {
   let product = req.body;
+
+  if (
+    !product.title ||
+    !product.description ||
+    !product.price ||
+    !product.code ||
+    !product.stock ||
+    !product.category
+  ) {
+    CustomError.createError({
+      name: "Product creation error",
+      cause: generateProductErrorInfo(product),
+      messsage: "Error creating a new product: MISSING ARGUMENTS.",
+      code: EErrors.MISSING_ARGUMENT_ERROR,
+    });
+  }
+
   const addProductResponse = await productsService.addProduct(
     new ProductDTO(product)
   );

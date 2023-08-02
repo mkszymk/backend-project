@@ -14,7 +14,7 @@ router.get("/", getProducts);
 
 router.get("/:pid", getProductById);
 
-router.post("/", adminRoute, addProduct);
+router.post("/", addProduct);
 
 router.put("/:pid", adminRoute, updateProduct);
 

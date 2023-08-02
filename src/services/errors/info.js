@@ -6,12 +6,14 @@ export const generateProductErrorInfo = (product) => {
           product.description
         } - ${typeof product.description}
         * price: Number, received ${product.price} - ${typeof product.price}
-        * thumbnail: String, received ${
+        * thumbnail: [ OPTIONAL ] String, received ${
           product.thumbnail
         } - ${typeof product.thumbnail}
         * code: String, received ${product.code} - ${typeof product.code}
         * stock: Number, received ${product.stock} - ${typeof product.stock}
-        * status: Boolean, received ${product.status} - ${typeof product.status}
+        * status: [ OPTIONAL ] Boolean, received ${
+          product.status
+        } - ${typeof product.status}
         * category: String, received ${
           product.category
         } - ${typeof product.category}
