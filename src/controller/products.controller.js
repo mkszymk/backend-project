@@ -29,7 +29,7 @@ const getProductById = async (req, res) => {
   res.send({ product });
 };
 
-const addProduct = async (req, res) => {
+const addProduct = async (req, res, next) => {
   let product = req.body;
 
   if (
@@ -40,12 +40,16 @@ const addProduct = async (req, res) => {
     !product.stock ||
     !product.category
   ) {
-    CustomError.createError({
-      name: "Product creation error",
-      cause: generateProductErrorInfo(product),
-      messsage: "Error creating a new product: MISSING ARGUMENTS.",
-      code: EErrors.MISSING_ARGUMENT_ERROR,
-    });
+    try {
+      CustomError.createError({
+        name: "Product creation error",
+        cause: generateProductErrorInfo(product),
+        messsage: "Error creating a new product: MISSING ARGUMENTS.",
+        code: EErrors.MISSING_ARGUMENT_ERROR,
+      });
+    } catch (e) {
+      return next(e);
+    }
   }
 
   const addProductResponse = await productsService.addProduct(
