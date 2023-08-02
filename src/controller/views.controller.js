@@ -2,6 +2,7 @@ import UserDTO from "../dao/DTOs/user.dto.js";
 import ProductDTO from "../dao/DTOs/product.dto.js";
 import TicketManager from "../services/DB/TicketManager.db.js";
 import { cartsService, productsService } from "../repositories/index.js";
+import { generateProduct } from "../utils.js";
 
 const ticketManager = new TicketManager();
 
@@ -172,6 +173,15 @@ const deleteEmptyCart = async (req, res) => {
   }
 };
 
+const getMockingProducts = async (req, res) => {
+  let products = [];
+  for (let i = 0; i < 100; i++) {
+    const product = generateProduct();
+    products.push(product);
+  }
+  res.send(products);
+};
+
 export {
   privateRoute,
   publicRoute,
@@ -190,4 +200,5 @@ export {
   getTicketPage,
   postPurchase,
   deleteEmptyCart,
+  getMockingProducts,
 };

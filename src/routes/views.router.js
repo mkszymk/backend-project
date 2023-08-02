@@ -18,6 +18,7 @@ import {
   getTicketPage,
   postPurchase,
   deleteEmptyCart,
+  getMockingProducts,
 } from "../controller/views.controller.js";
 
 import { adminRoute, userRoute } from "../controller/session.controller.js";
@@ -69,5 +70,7 @@ router.get("/ticket/:tid", privateRoute, userRoute, getTicketPage);
 router.post("/cart/purchase", privateRoute, userRoute, postPurchase);
 
 router.delete("/cart/empty", privateRoute, userRoute, deleteEmptyCart);
+
+router.get("/mockingproducts", publicRoute, getMockingProducts);
 
 export default router;
