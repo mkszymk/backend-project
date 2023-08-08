@@ -48,6 +48,7 @@ const getCartPage = async (req, res) => {
 };
 
 const getLoginPage = async (req, res) => {
+  req.logger.warning("Alerta!");
   res.render("login", {
     style: "credentials.css",
     code: req.query.e,
