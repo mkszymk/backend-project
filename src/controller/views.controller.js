@@ -29,6 +29,9 @@ const getProductsPage = async (req, res) => {
   const products = await (
     await fetch("http://localhost:8080/api/products?page=" + page)
   ).json();
+  req.logger.info(
+    `${new Date().toLocaleTimeString()} - Rendering main page with products.`
+  );
   res.render("home", {
     style: "style.css",
     products: await products,
@@ -44,11 +47,11 @@ const getCartPage = async (req, res) => {
   ).json();
   const total = await cartsService.getCartTotal(cartId);
   await cartsService.getProductsWithStock(cartId);
+  req.logger.info(`${new Date().toLocaleTimeString()} - Rendering cart page.`);
   res.render("cart", { style: "style.css", cart: await cart, total });
 };
 
 const getLoginPage = async (req, res) => {
-  req.logger.warning("Alerta!");
   res.render("login", {
     style: "credentials.css",
     code: req.query.e,

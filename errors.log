@@ -1,2 +1,2 @@
-{"level":"warn","message":"Alerta!"}
-warning: Alerta!
+error: 21:05:24 - Testing error log.
+fatal: 21:05:24 - Testing fatal log.
