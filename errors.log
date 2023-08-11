@@ -1,2 +1,37 @@
 error: 21:05:24 - Testing error log.
 fatal: 21:05:24 - Testing fatal log.
+error: 21:49:33 - Error trying to add a new product.
+error: 21:50:50 - Error trying to add a new product.
+error: 21:50:50 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 21:51:31 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 21:51:52 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    

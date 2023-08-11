@@ -52,7 +52,7 @@ app.use("/loggerTest", (req, res) => {
   res.send("Testing logger.");
 });
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 const httpServer = app.listen(config.port, () => {
   console.log("Escuchando en " + config.port);

@@ -3,12 +3,15 @@ import { productsService } from "../repositories/index.js";
 import CustomError from "../services/errors/CustomError.js";
 import { generateProductErrorInfo } from "../services/errors/info.js";
 import EErrors from "../services/errors/enums.js";
+import { loggerOutput } from "../utils/logger.js";
 
 const getProducts = async (req, res) => {
   try {
+    loggerOutput("debug", "Getting products list");
     let { limit, page, query, sort } = req.query;
     let _limit = parseInt(limit);
     let _page = parseInt(page);
+    loggerOutput("debug", "Sending products list");
     res.send(
       await productsService.getProducts(
         _limit ? _limit : 10,
@@ -18,7 +21,7 @@ const getProducts = async (req, res) => {
       )
     );
   } catch (error) {
-    console.log("Error: " + error);
+    loggerOutput("error", "Error sending products list.");
   }
 };
 
@@ -26,10 +29,12 @@ const getProductById = async (req, res) => {
   let productId = req.params.pid;
   const product = await productsService.getProductById(productId);
   if (product.error) return res.status(404).send({ error: "404 Not found." });
+  loggerOutput("debug", "Sending product by ID");
   res.send({ product });
 };
 
 const addProduct = async (req, res, next) => {
+  loggerOutput("info", "Trying to add a new product.");
   let product = req.body;
 
   if (
@@ -69,7 +74,7 @@ const updateProduct = async (req, res) => {
   );
   if (updateProductResponse.error)
     return res.status(updateProductResponse.error).send(updateProductResponse);
-
+  loggerOutput("debug", "Updating product.");
   return res.send(updateProductResponse);
 };
 
@@ -78,6 +83,7 @@ const deleteProduct = async (req, res) => {
   const deleteProductResponse = await productsService.deleteProduct(productId);
   if (deleteProductResponse.error)
     return res.status(deleteProductResponse.error).send(deleteProductResponse);
+  loggerOutput("info", "Deleting product with ID " + productId);
   return res.send(deleteProductResponse);
 };
 

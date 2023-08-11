@@ -62,3 +62,11 @@ export const addLogger = (req, res, next) => {
   );
   next();
 };
+
+export const loggerOutput = (level, message) => {
+  if (process.env.NODE_ENV === "production") {
+    productionLogger[level](`${new Date().toLocaleTimeString()} - ${message}`);
+  } else {
+    devLogger[level](`${new Date().toLocaleTimeString()} - ${message}`);
+  }
+};
