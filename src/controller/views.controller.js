@@ -2,7 +2,15 @@ import UserDTO from "../dao/DTOs/user.dto.js";
 import ProductDTO from "../dao/DTOs/product.dto.js";
 import TicketManager from "../services/DB/TicketManager.db.js";
 import { cartsService, productsService } from "../repositories/index.js";
-import { generateProduct } from "../utils.js";
+import { usersModel } from "../dao/models/user.model.js";
+import { createHash, generateProduct } from "../utils.js";
+import {
+  generateToken,
+  sendRestoreMail,
+  validateToken,
+  decryptToken,
+} from "../utils/restorePassword.js";
+import { loggerOutput } from "../utils/logger.js";
 
 const ticketManager = new TicketManager();
 
@@ -92,7 +100,24 @@ const getLostPasswordPage = async (req, res) => {
 };
 
 const postLostPassword = async (req, res) => {
-  res.redirect("/login");
+  const email = req.body.email;
+  loggerOutput("debug", `Restore password email received: ${email}`);
+  try {
+    const user = await usersModel.findOne({ email });
+    if (!user) return res.redirect("/lostpassword?e=404&m=Email not found");
+    const token = generateToken({ email: user.email });
+    const sendMailSuccess = await sendRestoreMail(email, token);
+    if (sendMailSuccess) {
+      res.redirect("/lostpassword?e=200&m=Mensaje enviado exitosamente");
+    } else {
+      res.redirect("/lostpassword?e=500&m=No se ha podido enviar el correo");
+    }
+  } catch (e) {
+    loggerOutput("error", e);
+    res.redirect(
+      "/lostpassword?e=500&m=Error del servidor, intente nuevamente"
+    );
+  }
 };
 
 const getManageProductsPage = async (req, res) => {
@@ -186,6 +211,48 @@ const getMockingProducts = async (req, res) => {
   res.send(products);
 };
 
+const getRestorePassword = async (req, res) => {
+  const { token } = req.query;
+  loggerOutput("debug", "Recibido token, analizando...");
+  const validation = validateToken(token);
+  if (validation) {
+    const decoded = decryptToken(token);
+    res.render("restorepassword", {
+      style: "credentials.css",
+      email: decoded.email,
+      token: token,
+    });
+  } else {
+    res.send(
+      "<h1>Link no válido...</h1><a href='http://localhost:8080/'>Volver a la página principal</a>"
+    );
+  }
+};
+
+const postRestorePassword = async (req, res) => {
+  const { token, password } = req.body;
+  const validation = validateToken(token);
+  if (validation) {
+    const email = decryptToken(token).email;
+    try {
+      const user = await usersModel.findOne({ email });
+      if (!user)
+        return res
+          .status(404)
+          .send({ success: false, message: "User not found." });
+      const cr_password = createHash(password);
+      user.password = cr_password;
+      await user.save();
+      loggerOutput("info", "Contraseña actualizada para " + email);
+      res.send({ success: true });
+    } catch (e) {
+      loggerOutput("error", e);
+    }
+  } else {
+    res.status(403).send({ success: false, message: "Token not valid" });
+  }
+};
+
 export {
   privateRoute,
   publicRoute,
@@ -205,4 +272,6 @@ export {
   postPurchase,
   deleteEmptyCart,
   getMockingProducts,
+  getRestorePassword,
+  postRestorePassword,
 };

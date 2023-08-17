@@ -68,20 +68,17 @@ const initializePassport = () => {
 
   passport.use(
     "restorePassword",
-    new LocalStrategy(
-      { usernameField: "email" },
-      async (username, newPassword, done) => {
-        try {
-          const user = await usersModel.findOne({ email: username });
-          if (!user) return done(null, false);
-          user.password = createHash(newPassword);
-          await user.save();
-          return done(null, user);
-        } catch (error) {
-          return done(error);
-        }
+    new LocalStrategy({ usernameField: "email" }, async (username, done) => {
+      try {
+        const user = await usersModel.findOne({ email: username });
+        if (!user) return done(null, false);
+        user.password = createHash(newPassword);
+        await user.save();
+        return done(null, user);
+      } catch (error) {
+        return done(error);
       }
-    )
+    })
   );
 
   passport.use(

@@ -19,6 +19,8 @@ import {
   postPurchase,
   deleteEmptyCart,
   getMockingProducts,
+  getRestorePassword,
+  postRestorePassword,
 } from "../controller/views.controller.js";
 
 import { adminRoute, userRoute } from "../controller/session.controller.js";
@@ -53,13 +55,7 @@ router.get("/logout", privateRoute, getLogoutPage);
 
 router.get("/lostpassword", publicRoute, getLostPasswordPage);
 
-router.post(
-  "/lostpassword",
-  passport.authenticate("restorePassword", {
-    failureRedirect: "/lostpassword?e=404&m=Email not found",
-  }),
-  postLostPassword
-);
+router.post("/lostpassword", postLostPassword);
 
 router.get("/manageproducts", privateRoute, adminRoute, getManageProductsPage);
 
@@ -72,5 +68,9 @@ router.post("/cart/purchase", privateRoute, userRoute, postPurchase);
 router.delete("/cart/empty", privateRoute, userRoute, deleteEmptyCart);
 
 router.get("/mockingproducts", publicRoute, getMockingProducts);
+
+router.get("/restorepassword", publicRoute, getRestorePassword);
+
+router.post("/restorepassword", postRestorePassword);
 
 export default router;

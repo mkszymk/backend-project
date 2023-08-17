@@ -12,4 +12,5 @@ export default {
   persistence: process.env.PERSISTENCE,
   gmailUser: process.env.GMAIL_USER,
   gmailPassword: process.env.GMAIL_PASSWORD,
+  jwtToken: process.env.JWT_TOKEN,
 };
