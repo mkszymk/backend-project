@@ -47,3 +47,149 @@ error: 22:02:03 - One or more arguments were incomplete or not valid.
         * category: String, received  - string
     
 error: 22:36:24 - TypeError: user.save is not a function
+error: 21:30:01 - undefined
+error: 21:30:06 - undefined
+error: 21:32:58 - undefined
+error: 21:33:38 - undefined
+error: 21:33:39 - undefined
+error: 21:33:39 - undefined
+error: 21:35:05 - undefined
+error: 21:35:06 - undefined
+error: 21:35:20 - undefined
+error: 21:36:05 - undefined
+error: 21:36:06 - undefined
+error: 21:36:06 - undefined
+error: 21:36:28 - undefined
+error: 21:36:29 - undefined
+error: 21:36:29 - undefined
+error: 21:37:57 - undefined
+error: 21:40:43 - SyntaxError: Unexpected token < in JSON at position 0
+error: 21:41:22 - SyntaxError: Unexpected token < in JSON at position 0
+error: 21:45:53 - SyntaxError: Unexpected token < in JSON at position 0
+error: 21:54:14 - TypeError: Headers.append: "{
+  _id: new ObjectId("64d588188be057bcd45e45a3"),
+  name: 'Admin',
+  lastName: 'Test',
+  email: 'admin@testcoderhouse.com',
+  age: 99,
+  password: '$2b$10$rUbc8VSSB8melelsOUfi2.ew55/MSowy2Mv7O699JJsIhpD/vLnse',
+  cart: new ObjectId("64d588188be057bcd45e45a1"),
+  role: 'admin',
+  source: 'register',
+  __v: 0
+}" is an invalid header value.
+error: 21:55:38 - TypeError: Headers.append: "{
+  _id: new ObjectId("64d588188be057bcd45e45a3"),
+  name: 'Admin',
+  lastName: 'Test',
+  email: 'admin@testcoderhouse.com',
+  age: 99,
+  password: '$2b$10$rUbc8VSSB8melelsOUfi2.ew55/MSowy2Mv7O699JJsIhpD/vLnse',
+  cart: new ObjectId("64d588188be057bcd45e45a1"),
+  role: 'admin',
+  source: 'register',
+  __v: 0
+}" is an invalid header value.
+error: 22:02:41 - TypeError: Headers.append: "{
+  _id: new ObjectId("64d588188be057bcd45e45a3"),
+  name: 'Admin',
+  lastName: 'Test',
+  email: 'admin@testcoderhouse.com',
+  age: 99,
+  password: '$2b$10$rUbc8VSSB8melelsOUfi2.ew55/MSowy2Mv7O699JJsIhpD/vLnse',
+  cart: new ObjectId("64d588188be057bcd45e45a1"),
+  role: 'admin',
+  source: 'register',
+  __v: 0
+}" is an invalid header value.
+error: 22:11:17 - TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle
+error: 22:11:40 - TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle
+error: 20:08:27 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:23:48 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:24:31 - undefined
+error: 20:26:07 - undefined
+error: 20:27:34 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:42:34 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:42:55 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:51:37 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:52:25 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 18:43:47 - SyntaxError: Unexpected token < in JSON at position 0
+error: 18:47:28 - SyntaxError: Unexpected token < in JSON at position 0
+error: 18:47:33 - SyntaxError: Unexpected token < in JSON at position 0
+error: 18:47:35 - SyntaxError: Unexpected token < in JSON at position 0

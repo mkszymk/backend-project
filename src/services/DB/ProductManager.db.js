@@ -1,4 +1,5 @@
 import { productsModel } from "../../dao/models/products.model.js";
+import { loggerOutput } from "../../utils/logger.js";
 
 class DBProductManager {
   async addProduct({
@@ -10,6 +11,7 @@ class DBProductManager {
     stock,
     status,
     category,
+    owner,
   }) {
     try {
       const mongoResponse = await productsModel.create({
@@ -21,6 +23,7 @@ class DBProductManager {
         stock,
         status,
         category,
+        owner,
       });
       return {
         success: true,
@@ -34,6 +37,7 @@ class DBProductManager {
           stock,
           status,
           category,
+          owner,
         },
       };
     } catch (error) {
@@ -57,6 +61,7 @@ class DBProductManager {
   }
 
   async getProductById(id) {
+    loggerOutput("debug", "Getting product by id");
     try {
       const product = await productsModel.findById(id);
       return { success: true, payload: product };

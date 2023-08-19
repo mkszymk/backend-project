@@ -8,5 +8,6 @@ export default class ProductDTO {
     this.stock = product.stock;
     this.status = product.status ? product.status : true;
     this.category = product.category;
+    this.owner = product.owner || "admin";
   }
 }

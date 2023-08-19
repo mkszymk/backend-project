@@ -5,6 +5,7 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
   const product = Object.fromEntries(formData.entries());
+  console.log(product);
   const response = await addProduct(product);
   if (response.success) {
     alert("Producto agregado!");

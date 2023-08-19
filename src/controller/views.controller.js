@@ -31,11 +31,14 @@ const publicRoute = (req, res, next) => {
 };
 
 const getProductsPage = async (req, res) => {
-  const userData = req.session.user;
+  const userData = req.user;
+  loggerOutput("debug", "USER: " + userData);
   if (!userData) return;
   const { page } = req.query || 1;
   const products = await (
-    await fetch("http://localhost:8080/api/products?page=" + page)
+    await fetch("http://localhost:8080/api/products?page=" + page, {
+      credentials: "include",
+    })
   ).json();
   req.logger.info(
     `${new Date().toLocaleTimeString()} - Rendering main page with products.`
@@ -121,6 +124,7 @@ const postLostPassword = async (req, res) => {
 };
 
 const getManageProductsPage = async (req, res) => {
+  loggerOutput("debug", "Rendering products manager");
   const products = await (
     await fetch("http://localhost:8080/api/products?limit=999")
   ).json();
@@ -131,6 +135,7 @@ const getManageProductsPage = async (req, res) => {
 };
 
 const postAddProduct = async (req, res) => {
+  loggerOutput("info", "Trying to add a new product");
   try {
     const _product = new ProductDTO(req.body);
     const product = JSON.stringify(_product);

@@ -36,7 +36,6 @@ const getProductById = async (req, res) => {
 const addProduct = async (req, res, next) => {
   loggerOutput("info", "Trying to add a new product.");
   let product = req.body;
-
   if (
     !product.title ||
     !product.description ||

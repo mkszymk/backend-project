@@ -1,6 +1,3 @@
-import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
-import viewsRouter from "./routes/views.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import express from "express";
 import handlebars from "express-handlebars";
@@ -11,6 +8,13 @@ import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
 import errorMiddleware from "./middlewares/errors/index.js";
 import { addLogger } from "./utils/logger.js";
+import ViewsRouter from "./routes/views.js";
+import CartsRouter from "./routes/carts.js";
+import ProductsRouter from "./routes/products.js";
+
+const viewsRouter = new ViewsRouter();
+const cartsRouter = new CartsRouter();
+const productsRouter = new ProductsRouter();
 
 const app = express();
 
@@ -37,10 +41,10 @@ app.use(
 );
 app.use(passport.session());
 
-app.use("/api/carts", cartsRouter);
-app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter.getRouter());
+app.use("/api/products", productsRouter.getRouter());
 app.use("/api/sessions", sessionsRouter);
-app.use("/", viewsRouter);
+app.use("/", viewsRouter.getRouter());
 app.use("/loggerTest", (req, res) => {
   req.logger.debug(`${new Date().toLocaleTimeString()} - Testing debug log.`);
   req.logger.info(`${new Date().toLocaleTimeString()} - Testing info log.`);
