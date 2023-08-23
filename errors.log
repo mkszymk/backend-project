@@ -193,3 +193,125 @@ error: 18:43:47 - SyntaxError: Unexpected token < in JSON at position 0
 error: 18:47:28 - SyntaxError: Unexpected token < in JSON at position 0
 error: 18:47:33 - SyntaxError: Unexpected token < in JSON at position 0
 error: 18:47:35 - SyntaxError: Unexpected token < in JSON at position 0
+error: 19:54:46 - undefined
+error: 19:56:40 - undefined
+error: 20:10:17 - undefined
+error: 20:11:05 - undefined
+error: 19:12:45 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 19:56:57 - undefined
+error: 20:01:08 - undefined
+error: 20:10:30 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 20:11:39 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 20:12:44 - undefined
+error: 21:29:57 - TypeError: req.set is not a function
+error: 21:44:08 - undefined
+error: 21:44:50 - undefined
+error: 21:45:43 - undefined
+error: 21:46:09 - undefined
+error: 21:46:11 - undefined
+error: 21:51:19 - Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+error: 21:52:44 - Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+error: 21:56:25 - Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+error: 22:01:51 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 22:14:09 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 22:14:57 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 22:17:48 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 22:20:23 - TypeError: Cannot set properties of undefined (setting 'user')
+error: 22:20:54 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 22:21:01 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 22:21:08 - ReferenceError: user is not defined
+error: 22:21:37 - ReferenceError: user is not defined
+error: 22:22:00 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 22:22:19 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 22:22:22 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 22:24:10 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 23:52:39 - undefined
+error: 23:53:17 - undefined
+error: 23:54:07 - undefined
+error: 23:54:10 - undefined
+error: 23:55:08 - undefined
+error: 23:55:55 - undefined
+error: 23:56:05 - undefined
+error: 23:56:45 - undefined
+error: 23:57:03 - undefined
+error: 23:57:10 - undefined
+error: 23:58:19 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:03:06 - TypeError: Cannot read properties of undefined (reading 'destroy')
+error: 00:16:06 - undefined
+error: 00:17:06 - undefined
+error: 00:17:18 - undefined
+error: 00:18:46 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:19:03 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:21:10 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:23:22 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:24:40 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:25:23 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:27:12 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:27:48 - ReferenceError: token is not defined
+error: 00:29:16 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:30:34 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:31:33 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:32:43 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:34:45 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:34:52 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:35:28 - TypeError: Cannot read properties of undefined (reading 'user')
+error: 00:37:51 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'user')
+error: 09:31:37 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'destroy')
+error: 09:34:53 - [Router] applyCallbacks error: TypeError: req.clearCookie is not a function
+error: 09:35:59 - undefined
+error: 09:40:57 - undefined
+error: 10:28:48 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:25:11 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:28:53 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:31:10 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:32:19 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:33:06 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:33:21 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:33:59 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:34:12 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:36:11 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:37:04 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:38:40 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 16:40:34 - [Router] applyCallbacks error: ReferenceError: apiResponse is not defined
+error: 16:41:26 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'authToken')
+error: 17:27:09 - [Router] applyCallbacks error: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+error: 17:37:08 - undefined
+error: 17:38:21 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:39:06 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:39:41 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:42:55 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:45:02 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:45:21 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:45:55 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:47:03 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:48:08 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:49:14 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:50:36 - [Router] applyCallbacks error: SyntaxError: Unexpected token < in JSON at position 0
+error: 17:54:54 - undefined
+error: 18:08:45 - undefined
+error: 18:10:37 - undefined
+error: 19:15:37 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'error')
+error: 19:17:01 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'error')
+error: 19:17:33 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'error')
+error: 19:17:50 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'error')
+error: 19:19:20 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'error')
+error: 19:24:55 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'owner')
+error: 19:24:58 - [Router] applyCallbacks error: TypeError: Cannot read properties of undefined (reading 'owner')
+error: 19:46:19 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received  - string
+        * description: String, received  - string
+        * price: Number, received  - string
+        * thumbnail: [ OPTIONAL ] String, received  - string
+        * code: String, received  - string
+        * stock: Number, received  - string
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received  - string
+    
+error: 20:09:00 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:19:12 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:19:48 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:20:08 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:21:18 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:22:00 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
+error: 22:22:59 - Role change error: TypeError: Cannot read properties of null (reading 'role')

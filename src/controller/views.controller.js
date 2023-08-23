@@ -3,7 +3,7 @@ import ProductDTO from "../dao/DTOs/product.dto.js";
 import TicketManager from "../services/DB/TicketManager.db.js";
 import { cartsService, productsService } from "../repositories/index.js";
 import { usersModel } from "../dao/models/user.model.js";
-import { createHash, generateProduct } from "../utils.js";
+import { createHash, generateProduct, generateUserToken } from "../utils.js";
 import {
   generateToken,
   sendRestoreMail,
@@ -14,30 +14,16 @@ import { loggerOutput } from "../utils/logger.js";
 
 const ticketManager = new TicketManager();
 
-const privateRoute = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-};
-
-const publicRoute = (req, res, next) => {
-  if (!req.session.user) {
-    next();
-  } else {
-    res.redirect("/products");
-  }
-};
-
 const getProductsPage = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  loggerOutput("debug", `[getProductsPage] Token received: ${token}`);
   const userData = req.user;
-  loggerOutput("debug", "USER: " + userData);
+  loggerOutput("debug", "[getProductsPage] USER: " + userData);
   if (!userData) return;
   const { page } = req.query || 1;
   const products = await (
     await fetch("http://localhost:8080/api/products?page=" + page, {
-      credentials: "include",
+      headers: { Authorization: `Bearer ${token}` },
     })
   ).json();
   req.logger.info(
@@ -48,13 +34,17 @@ const getProductsPage = async (req, res) => {
     products: await products,
     ...userData,
     admin: userData.role === "admin" ? true : false,
+    premium: userData.role === "premium" ? true : false,
   });
 };
 
 const getCartPage = async (req, res) => {
-  const cartId = req.session.user.cart;
+  const cartId = req.user.cart;
+  const token = req.headers.authorization.split(" ")[1];
   const cart = await (
-    await fetch("http://localhost:8080/api/carts/" + cartId)
+    await fetch("http://localhost:8080/api/carts/" + cartId, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   ).json();
   const total = await cartsService.getCartTotal(cartId);
   await cartsService.getProductsWithStock(cartId);
@@ -79,10 +69,19 @@ const postRegister = async (req, res) => {
 };
 
 const postLogin = async (req, res) => {
-  if (!req.user) return res.redirect("/login?e=400&m=Credenciales inválidas");
-  let user = new UserDTO(req.user);
-  req.session.user = user.getRelevantInfo();
-  res.redirect("/products");
+  loggerOutput("info", `Login successful`);
+  let user = req.user;
+  loggerOutput("info", `Logged: ${user}`);
+  const token = generateUserToken(user);
+  loggerOutput("debug", `Token: ${token}`);
+  try {
+    res.cookie("authToken", token, {
+      httpOnly: true,
+    });
+    res.set("Authorization", `Bearer ${token}`).redirect("/products");
+  } catch (e) {
+    res.redirect("/login");
+  }
 };
 
 const getMainPage = async (req, res) => {
@@ -90,7 +89,8 @@ const getMainPage = async (req, res) => {
 };
 
 const getLogoutPage = async (req, res) => {
-  req.session.destroy();
+  req.headers.authorization = null;
+  res.clearCookie("authToken");
   res.redirect("/login");
 };
 
@@ -104,7 +104,10 @@ const getLostPasswordPage = async (req, res) => {
 
 const postLostPassword = async (req, res) => {
   const email = req.body.email;
-  loggerOutput("debug", `Restore password email received: ${email}`);
+  loggerOutput(
+    "debug",
+    `[VIEWS/postLostPassord] Restore password email received: ${email}`
+  );
   try {
     const user = await usersModel.findOne({ email });
     if (!user) return res.redirect("/lostpassword?e=404&m=Email not found");
@@ -124,9 +127,12 @@ const postLostPassword = async (req, res) => {
 };
 
 const getManageProductsPage = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
   loggerOutput("debug", "Rendering products manager");
   const products = await (
-    await fetch("http://localhost:8080/api/products?limit=999")
+    await fetch("http://localhost:8080/api/products?limit=999", {
+      headers: { Authorization: "Bearer " + token },
+    })
   ).json();
   res.render("manageproducts", {
     style: "manageProducts.css",
@@ -194,10 +200,13 @@ const postPurchase = async (req, res) => {
 };
 
 const deleteEmptyCart = async (req, res) => {
+  loggerOutput("info", `[DeleteEmptyCart] Removing products of cart...`);
+  const token = req.headers.authorization;
   const cartId = req.user.cart;
   const apiResponse = await (
     await fetch("http://localhost:8080/api/carts/" + cartId, {
       method: "DELETE",
+      headers: { Authorization: token },
     })
   ).json();
   if (apiResponse.success) {
@@ -249,7 +258,7 @@ const postRestorePassword = async (req, res) => {
       user.password = cr_password;
       await user.save();
       loggerOutput("info", "Contraseña actualizada para " + email);
-      res.send({ success: true });
+      res.redirect("/");
     } catch (e) {
       loggerOutput("error", e);
     }
@@ -259,8 +268,6 @@ const postRestorePassword = async (req, res) => {
 };
 
 export {
-  privateRoute,
-  publicRoute,
   getProductsPage,
   getCartPage,
   getLoginPage,

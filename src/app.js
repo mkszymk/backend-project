@@ -2,7 +2,6 @@ import sessionsRouter from "./routes/sessions.router.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
-import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
@@ -11,12 +10,15 @@ import { addLogger } from "./utils/logger.js";
 import ViewsRouter from "./routes/views.js";
 import CartsRouter from "./routes/carts.js";
 import ProductsRouter from "./routes/products.js";
+import cookieParser from "cookie-parser";
 
 const viewsRouter = new ViewsRouter();
 const cartsRouter = new CartsRouter();
 const productsRouter = new ProductsRouter();
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use("/static", express.static(__dirname + "/public"));
 
@@ -32,14 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 initializePassport();
 
 app.use(passport.initialize());
-app.use(
-  session({
-    secret: "0X848fd%!fds",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.session());
 
 app.use("/api/carts", cartsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());

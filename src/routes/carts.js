@@ -1,26 +1,28 @@
 import CustomRouter from "./router.js";
 import * as carts from "../controller/carts.controller.js";
-import { userRoute } from "../controller/session.controller.js";
 
 export default class CartsRouter extends CustomRouter {
   init() {
-    this.get("/", ["PUBLIC"], carts.getCarts);
+    this.get("/", ["ADMIN"], carts.getCarts);
 
-    this.post("/", ["PUBLIC"], carts.addCart);
+    this.post("/", ["USER", "PREMIUM"], carts.addCart);
 
     this.post(
       "/:cid/product/:pid",
-      ["PUBLIC"],
-      userRoute,
+      ["USER", "PREMIUM"],
       carts.addProductToCart
     );
 
-    this.get("/:cid", ["PUBLIC"], carts.getCartById);
+    this.get("/:cid", ["USER", "PREMIUM"], carts.getCartById);
 
-    this.delete("/:cid/products/:pid", ["PUBLIC"], carts.removeProductOfCart);
+    this.delete(
+      "/:cid/products/:pid",
+      ["USER", "PREMIUM"],
+      carts.removeProductOfCart
+    );
 
-    this.put("/:cid", ["PUBLIC"], carts.replaceProducts);
+    this.put("/:cid", ["USER", "PREMIUM"], carts.replaceProducts);
 
-    this.delete("/:cid", ["PUBLIC"], carts.emptyCart);
+    this.delete("/:cid", ["USER", "PREMIUM"], carts.emptyCart);
   }
 }

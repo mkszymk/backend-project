@@ -6,6 +6,9 @@
   {{#if admin}}
     <p>Rol: ADMIN</p>
   {{/if}}
+  {{#if premium}}
+    <p>Usuario PREMIUM</p>
+  {{/if}}
   <a href="http://localhost:8080/logout" class="logoutA"><button
       class="logoutBtn"
     >Cerrar sesión</button></a>
@@ -14,7 +17,10 @@
 <h2>Página: {{products.page}}/{{products.totalPages}}</h2>
 <a href="http://localhost:8080/cart/" class="seeCart">VER CARRITO</a>
   {{#if admin}}
-<a href="http://localhost:8080/manageproducts/" class="manageProducts">Administrador: Gestionar productos</a>
+<a href="http://localhost:8080/manageproducts/" class="manageProducts">ADMIN: Gestionar productos</a>
+  {{/if}}
+  {{#if premium}}
+<a href="http://localhost:8080/manageproducts/" class="manageProducts">PREMIUM: Gestionar productos</a>
   {{/if}}
 {{! prettier-ignore }}
 <div class="homeTableContainer">

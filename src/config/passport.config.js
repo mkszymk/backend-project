@@ -7,9 +7,14 @@ import { CartManager } from "../services/factory.js";
 import config from "./config.js";
 import UserDTO from "../dao/DTOs/user.dto.js";
 import nodemailer from "nodemailer";
+import jwt from "passport-jwt";
+import { loggerOutput } from "../utils/logger.js";
 
 const cartManager = new CartManager();
 const LocalStrategy = local.Strategy;
+
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -19,6 +24,16 @@ const transport = nodemailer.createTransport({
     pass: config.gmailPassword,
   },
 });
+
+const cookieExtractor = (req) => {
+  loggerOutput("debug", "Running cookie extractor");
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies["authToken"];
+  }
+  loggerOutput("debug", `CookieExtractor token: ${token}`);
+  return token;
+};
 
 const initializePassport = () => {
   passport.use(
@@ -95,6 +110,26 @@ const initializePassport = () => {
           return done(null, user);
         } catch (error) {
           return done(error);
+        }
+      }
+    )
+  );
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: config.jwtToken,
+      },
+      async (jwt_payload, done) => {
+        loggerOutput("debug", "Using JWT Strategy");
+        try {
+          const a = Object.keys(jwt_payload);
+          loggerOutput("info", `${jwt_payload.user.email}`);
+          return done(null, jwt_payload.user);
+        } catch (e) {
+          loggerOutput("error", `JWT ERROR: ${e}`);
+          return done(e);
         }
       }
     )

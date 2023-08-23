@@ -1,4 +1,4 @@
-import { cartsService } from "../repositories/index.js";
+import { cartsService, productsService } from "../repositories/index.js";
 import { loggerOutput } from "../utils/logger.js";
 
 const getCarts = async (req, res) => {
@@ -15,6 +15,16 @@ const addProductToCart = async (req, res) => {
   loggerOutput("debug", "Trying to add a product to the cart.");
   const cartId = req.params.cid;
   const productId = req.params.pid;
+  const user = req.user;
+  const product = await productsService.getProductById(productId);
+  if (user.email === product.payload.owner) {
+    return res
+      .status(403)
+      .send({
+        success: false,
+        message: "Owner can not add it's own product to cart.",
+      });
+  }
   const { quantity } = req.body;
   const addProductResponse = await cartsService.addProductToCart(
     cartId,
@@ -28,6 +38,7 @@ const addProductToCart = async (req, res) => {
 };
 
 const getCartById = async (req, res) => {
+  loggerOutput("debug", `[api/Carts] Sending cart by ID`);
   const cartId = req.params.cid;
   const cart = await cartsService.getCartById(cartId);
   if (await cart.error) return res.sendStatus(cart.error);

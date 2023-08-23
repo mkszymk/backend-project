@@ -1,9 +1,18 @@
 import UserDTO from "../dao/DTOs/user.dto.js";
+import { generateUserToken } from "../utils.js";
+import { loggerOutput } from "../utils/logger.js";
 
 const github = async (req, res) => {};
 
 const githubcallback = async (req, res) => {
-  req.session.user = new UserDTO(req.user).getRelevantInfo();
+  const user = req.user;
+  loggerOutput("info", `[SessionController] Github user login`);
+  const token = generateUserToken(user);
+  try {
+    res.cookie("authToken", token, { httpOnly: true });
+  } catch (e) {
+    loggerOutput("error", `[SessionController] Cookie error: ${e}`);
+  }
   res.redirect("/products");
 };
 

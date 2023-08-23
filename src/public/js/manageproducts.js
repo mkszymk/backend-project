@@ -35,5 +35,9 @@ async function deleteProduct(productId) {
       method: "DELETE",
     })
   ).json();
-  window.location.reload();
+  if (apiResponse.success) {
+    window.location.reload();
+  } else {
+    alert("No puedes eliminar este producto.");
+  }
 }

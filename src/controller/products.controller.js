@@ -35,6 +35,7 @@ const getProductById = async (req, res) => {
 
 const addProduct = async (req, res, next) => {
   loggerOutput("info", "Trying to add a new product.");
+  const { email } = req.user;
   let product = req.body;
   if (
     !product.title ||
@@ -57,7 +58,7 @@ const addProduct = async (req, res, next) => {
   }
 
   const addProductResponse = await productsService.addProduct(
-    new ProductDTO(product)
+    new ProductDTO({ ...product, owner: email })
   );
   if (addProductResponse.error)
     return res.status(addProductResponse.error).send(addProductResponse);
@@ -79,7 +80,43 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const productId = req.params.pid;
-  const deleteProductResponse = await productsService.deleteProduct(productId);
+  const product = await productsService.getProductById(productId);
+  const user = req.user;
+  let deleteProductResponse;
+  loggerOutput(
+    "debug",
+    `[ProductsController/deleteProduct] User role: ${user.role}`
+  );
+
+  if (!(user.role === "admin")) {
+    loggerOutput(
+      "debug",
+      `[ProductsController/deleteProduct] User is not admin.`
+    );
+    if (user.email === product.payload.owner) {
+      deleteProductResponse = await productsService.deleteProduct(productId);
+      loggerOutput(
+        "debug",
+        `[ProductsController/deleteProduct] User is the owner.`
+      );
+    } else {
+      loggerOutput(
+        "debug",
+        `[ProductsController/deleteProduct] User is not admin nor owner.`
+      );
+      loggerOutput(
+        "debug",
+        `[ProductsController/deleteProduct] User: ${user.email} // Owner: ${product.payload.owner}`
+      );
+      return res
+        .status(403)
+        .send({ success: false, messsage: "User is not the product owner." });
+    }
+  } else {
+    loggerOutput("debug", `[ProductsController/deleteProduct] User admin.`);
+    deleteProductResponse = await productsService.deleteProduct(productId);
+  }
+
   if (deleteProductResponse.error)
     return res.status(deleteProductResponse.error).send(deleteProductResponse);
   loggerOutput("info", "Deleting product with ID " + productId);
