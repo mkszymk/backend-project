@@ -18,12 +18,10 @@ const addProductToCart = async (req, res) => {
   const user = req.user;
   const product = await productsService.getProductById(productId);
   if (user.email === product.payload.owner) {
-    return res
-      .status(403)
-      .send({
-        success: false,
-        message: "Owner can not add it's own product to cart.",
-      });
+    return res.status(403).send({
+      success: false,
+      message: "Owner can not add it's own product to cart.",
+    });
   }
   const { quantity } = req.body;
   const addProductResponse = await cartsService.addProductToCart(

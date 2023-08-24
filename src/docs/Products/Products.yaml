@@ -1,0 +1,162 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: los productos fueron obtenidos con éxito.
+        "401":
+          description: token de autenticación no válido.
+        "403":
+          description: usuario no tiene permisos suficientes para acceder a este recurso.
+        "422":
+          description: parámetro "sort" es distinto a 'asc' o 'desc'
+        "404":
+          description: página de productos vacía o no encontrada.
+    post:
+      summary: Agregar un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createProduct"
+      responses:
+        "200":
+          description: producto agregado correctamente.
+        "500":
+          description: error al agregar el producto.
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por su ID.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            $type: String
+      responses:
+        "404":
+          description: El producto no fue encontrado / no existe.
+        "200":
+          description: Producto encontrado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+    put:
+      summary: Actualizar un producto por su ID.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto actualizado correctamente.
+        "500":
+          description: No se pudo actualizar el producto + error de Mongo.
+    delete:
+      summary: Eliminar un producto por su ID.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Producto eliminado correctamente.
+        "500":
+          description: No se pudo actualizar el producto + error de Mongo.
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Imagen del producto
+        code:
+          type: String
+          description: Código del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Disponibilidad del producto
+        category:
+          type: String
+          description: Categoría del producto
+        owner:
+          type: String
+          description: Usuario propietario del producto
+      example:
+        _id: ObjectId("646ab458be264a5fee42fe20")
+        title: iPhone 14
+        description: Celular iPhone 14
+        price: 1000
+        thumbnail: http://example.com/image/iphone14.png
+        code: iphone14
+        stock: 17
+        status: true
+        category: phones
+        owner: john@doe.com
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Imagen del producto
+        code:
+          type: String
+          description: Código del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        status:
+          type: Boolean
+          description: Disponibilidad del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        title: iPhone 14
+        description: Celular iPhone 14
+        price: 1000
+        thumbnail: http://example.com/image/iphone14.png
+        code: iphone14
+        stock: 17
+        status: true
+        category: phones

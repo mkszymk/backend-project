@@ -1,0 +1,135 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtiene todos los carritos (se necesitan permisos de admin)
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: los productos fueron obtenidos con éxito.
+        "500":
+          description: error al devolver los carritos.
+        "403":
+          description: el usuario actual no es administrador.
+    post:
+      summary: Agregar un nuevo carrito (individual)
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: carrito agregado correctamente.
+        "500":
+          description: error al agregar el carrito.
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto a cierto carrito.
+      tags:
+        - Carts
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            $type: String
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto agregado correctamente.
+        "500":
+          description: No se pudo actualizar el producto + error de Mongo.
+        "403":
+          description: Se devuelve cuando se intenta agregar un producto de su propiedad
+    delete:
+      summary: Eliminar un producto de un carrito.
+      tags:
+        - Carts
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            $type: String
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto eliminado del carrito.
+        "404":
+          description: Producto no encontrado en el carrito.
+        "500":
+          description: No se pudo eliminar el producto del carrito.
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito por su ID.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: éxito al devolver el carrito.
+        "500":
+          description: error al devolver el carrito.
+        "404":
+          description: Carrito no encontrado.
+    put:
+      summary: Reemplaza los productos del carrito por los productos indicados en body.
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: éxito al reemplazar productos.
+        "500":
+          description: error al reemplazar productos.
+    delete:
+      summary: Vaciar un carrito por su ID.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: éxito al vaciar el carrito.
+        "500":
+          description: error al vaciar el carrito.
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado por MongoDB
+        products:
+          type: Array
+          description: Conjunto de IDs de productos en el carrito.
+      example:
+        _id: ObjectId('64df923807fd773113a93e66')
+        products: [{ product: 6479124041eacf725fa1abdb, quantity: 1 }]
+  requestBodies:
+    updateCart:
+      type: Array
+      properties:
+        products:
+          type: object
+          description: Objeto con productID y la cantidad
+      example:
+        products:
+          [
+            { product: 6479124041eacf725fa1abdb, quantity: 1 },
+            { product: 6dsadas479d725fa1abdfb88, quantity: 5 },
+          ]

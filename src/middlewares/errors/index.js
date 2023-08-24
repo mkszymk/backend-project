@@ -5,10 +5,10 @@ const errorMiddleware = (err, req, res, next) => {
   loggerOutput("error", err.cause);
   switch (err.code) {
     case EErrors.MISSING_ARGUMENT_ERROR:
-      res.send({ status: "error", error: err.name });
+      res.status(500).send({ status: "error", error: err.name });
       break;
     default:
-      res.send({ status: "error", error: "Unhandled error" });
+      res.status(500).send({ status: "error", error: "Unhandled error" });
       break;
   }
 };

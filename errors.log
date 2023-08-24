@@ -315,3 +315,25 @@ error: 22:20:08 - [Router] applyCallbacks error: TypeError: Cannot read properti
 error: 22:21:18 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
 error: 22:22:00 - [Router] applyCallbacks error: TypeError: Cannot read properties of null (reading 'role')
 error: 22:22:59 - Role change error: TypeError: Cannot read properties of null (reading 'role')
+error: 19:08:48 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received undefined - undefined
+        * description: String, received undefined - undefined
+        * price: Number, received undefined - undefined
+        * thumbnail: [ OPTIONAL ] String, received undefined - undefined
+        * code: String, received undefined - undefined
+        * stock: Number, received undefined - undefined
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received undefined - undefined
+    
+error: 19:10:00 - One or more arguments were incomplete or not valid.
+    List of arguments required to create a new product:
+        * title: String, received undefined - undefined
+        * description: String, received undefined - undefined
+        * price: Number, received undefined - undefined
+        * thumbnail: [ OPTIONAL ] String, received undefined - undefined
+        * code: String, received undefined - undefined
+        * stock: Number, received undefined - undefined
+        * status: [ OPTIONAL ] Boolean, received undefined - undefined
+        * category: String, received undefined - undefined
+    

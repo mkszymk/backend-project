@@ -32,6 +32,10 @@ export default class CustomRouter {
     loggerOutput("debug", `[Router policies] --- Start ---`);
     let token = null;
     if (req.cookies["authToken"] || req.headers.authorization) {
+      loggerOutput(
+        "debug",
+        "[RouterPolicies] Found cookie toker or header token."
+      );
       if (
         req.cookies["authToken"] &&
         req.headers.authorization &&
@@ -71,7 +75,15 @@ export default class CustomRouter {
       return next();
     }
 
-    if (!token) return res.status(401).redirect("/");
+    if (!policies.includes("API")) {
+      if (!token) return res.status(401).redirect("/");
+    } else {
+      if (!token)
+        return res.status(401).send({
+          success: false,
+          message: "Auth token is required to access this module.",
+        });
+    }
     req.headers.authorization = `Bearer ${token}`;
     let { user } = jwt.verify(token, config.jwtToken);
     loggerOutput(

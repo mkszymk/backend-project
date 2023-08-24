@@ -11,6 +11,8 @@ import ViewsRouter from "./routes/views.js";
 import CartsRouter from "./routes/carts.js";
 import ProductsRouter from "./routes/products.js";
 import cookieParser from "cookie-parser";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 const viewsRouter = new ViewsRouter();
 const cartsRouter = new CartsRouter();
@@ -34,6 +36,20 @@ app.use(express.urlencoded({ extended: true }));
 initializePassport();
 
 app.use(passport.initialize());
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "FastMarket",
+      description: "API Fastmarket para ecommerces.",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use("/api/carts", cartsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
