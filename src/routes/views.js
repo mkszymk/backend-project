@@ -1,97 +1,95 @@
-import CustomRouter from "./router.js";
 import passport from "passport";
 import * as views from "../controller/views.controller.js";
 import { usersModel } from "../dao/models/user.model.js";
 import { loggerOutput } from "../utils/logger.js";
+import { Router } from "express";
+import verifyToken from "../middlewares/sessions/verifyToken.js";
+import publicView from "../middlewares/sessions/publicView.js";
+import { usePolicies } from "../middlewares/policies/policies.js";
 
-export default class ViewsRouter extends CustomRouter {
-  init() {
-    this.get("/products", ["USER", "ADMIN", "PREMIUM"], views.getProductsPage);
+const router = Router();
 
-    this.get("/cart/", ["USER", "ADMIN", "PREMIUM"], views.getCartPage);
+router.get("/products", verifyToken, views.getProductsPage);
 
-    this.get("/login", ["PUBLIC", "PVIEW"], views.getLoginPage);
+router.get("/cart/", verifyToken, views.getCartPage);
 
-    this.get("/register", ["PUBLIC", "PVIEW"], views.getRegisterPage);
+router.get("/login", publicView, views.getLoginPage);
 
-    this.post(
-      "/register",
-      ["PUBLIC", "PVIEW"],
-      passport.authenticate("register", {
-        failureRedirect: "/register",
-        session: false,
-      }),
-      views.postRegister
-    );
+router.get("/register", publicView, views.getRegisterPage);
 
-    this.post(
-      "/login",
-      ["PUBLIC", "PVIEW"],
-      passport.authenticate("login", {
-        session: false,
-        failureRedirect: "/login?e=400&m=Credenciales inválidas",
-      }),
-      views.postLogin
-    );
+router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureRedirect: "/register",
+    session: false,
+  }),
+  views.postRegister
+);
 
-    this.get("/", ["PUBLIC", "PVIEW"], views.getMainPage);
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    session: false,
+    failureRedirect: "/login?e=400&m=Credenciales inválidas",
+  }),
+  views.postLogin
+);
 
-    this.get("/logout", ["USER", "ADMIN", "PREMIUM"], views.getLogoutPage);
+router.get("/", publicView, views.getMainPage);
 
-    this.get(
-      "/lostpassword",
-      ["PUBLIC", "PVIEW"],
+router.get("/logout", verifyToken, views.getLogoutPage);
 
-      views.getLostPasswordPage
-    );
+router.get("/lostpassword", publicView, views.getLostPasswordPage);
 
-    this.post("/lostpassword", ["PUBLIC", "PVIEW"], views.postLostPassword);
+router.post("/lostpassword", publicView, views.postLostPassword);
 
-    this.get(
-      "/manageproducts",
-      ["ADMIN", "PREMIUM"],
-      views.getManageProductsPage
-    );
+router.get(
+  "/manageproducts",
+  verifyToken,
+  usePolicies(["admin", "premium"]),
+  views.getManageProductsPage
+);
 
-    this.post("/manageproducts", ["ADMIN", "PREMIUM"], views.postAddProduct);
+router.post(
+  "/manageproducts",
+  verifyToken,
+  usePolicies(["admin", "premium"]),
+  views.postAddProduct
+);
 
-    this.get("/ticket/:tid", ["USER", "PREMIUM"], views.getTicketPage);
+router.get("/ticket/:tid", verifyToken, views.getTicketPage);
 
-    this.post("/cart/purchase", ["USER", "PREMIUM"], views.postPurchase);
+router.post("/cart/purchase", verifyToken, views.postPurchase);
 
-    this.delete("/cart/empty", ["USER", "PREMIUM"], views.deleteEmptyCart);
+router.delete("/cart/empty", verifyToken, views.deleteEmptyCart);
 
-    this.get("/mockingproducts", ["PUBLIC", "PVIEW"], views.getMockingProducts);
+router.get("/mockingproducts", views.getMockingProducts);
 
-    this.get("/restorepassword", ["PUBLIC", "PVIEW"], views.getRestorePassword);
+router.get("/restorepassword", publicView, views.getRestorePassword);
 
-    this.post(
-      "/restorepassword",
-      ["PUBLIC", "PVIEW"],
-      views.postRestorePassword
-    );
+router.post("/restorepassword", publicView, views.postRestorePassword);
 
-    this.get("/api/users/premium/:uid", ["BYPASS"], async (req, res) => {
-      loggerOutput("debug", `Changing user role...`);
-      const uid = req.params.uid;
-      try {
-        const user = await usersModel.findOne({ _id: uid });
-        if (!user) {
-          return res
-            .status(404)
-            .send({ success: false, message: "User not found" });
-        }
-        if (user.role == "premium") {
-          user.role = "user";
-        } else {
-          user.role = "premium";
-        }
-        await user.save();
-        loggerOutput("info", `Role changed!`);
-        res.send("Se actualizó el rol para: " + user.email);
-      } catch (e) {
-        loggerOutput("error", `Role change error: ${e}`);
-      }
-    });
+router.get("/api/users/premium/:uid", async (req, res) => {
+  loggerOutput("debug", `Changing user role...`);
+  const uid = req.params.uid;
+  try {
+    const user = await usersModel.findOne({ _id: uid });
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+    if (user.role == "premium") {
+      user.role = "user";
+    } else {
+      user.role = "premium";
+    }
+    await user.save();
+    loggerOutput("info", `Role changed!`);
+    res.send("Se actualizó el rol para: " + user.email);
+  } catch (e) {
+    loggerOutput("error", `Role change error: ${e}`);
   }
-}
+});
+
+export default router;

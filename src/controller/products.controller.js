@@ -6,6 +6,10 @@ import EErrors from "../services/errors/enums.js";
 import { loggerOutput } from "../utils/logger.js";
 
 const getProducts = async (req, res) => {
+  loggerOutput(
+    "debug",
+    `[ProductsController/GetProducts] Trying to get product list....`
+  );
   try {
     loggerOutput("debug", "Getting products list");
     let { limit, page, query, sort } = req.query;
@@ -82,6 +86,8 @@ const deleteProduct = async (req, res) => {
   const productId = req.params.pid;
   const product = await productsService.getProductById(productId);
   const user = req.user;
+  if (!user)
+    return res.status(401).send({ success: false, message: "Not user found" });
   let deleteProductResponse;
   loggerOutput(
     "debug",

@@ -14,10 +14,6 @@ import cookieParser from "cookie-parser";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 
-const viewsRouter = new ViewsRouter();
-const cartsRouter = new CartsRouter();
-const productsRouter = new ProductsRouter();
-
 const app = express();
 
 app.use(cookieParser());
@@ -51,10 +47,10 @@ const swaggerOptions = {
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-app.use("/api/carts", cartsRouter.getRouter());
-app.use("/api/products", productsRouter.getRouter());
+app.use("/api/carts", CartsRouter);
+app.use("/api/products", ProductsRouter);
 app.use("/api/sessions", sessionsRouter);
-app.use("/", viewsRouter.getRouter());
+app.use("/", ViewsRouter);
 app.use("/loggerTest", (req, res) => {
   req.logger.debug(`${new Date().toLocaleTimeString()} - Testing debug log.`);
   req.logger.info(`${new Date().toLocaleTimeString()} - Testing info log.`);

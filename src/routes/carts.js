@@ -1,28 +1,21 @@
-import CustomRouter from "./router.js";
+import { Router } from "express";
 import * as carts from "../controller/carts.controller.js";
+import verifyToken from "../middlewares/sessions/verifyToken.js";
 
-export default class CartsRouter extends CustomRouter {
-  init() {
-    this.get("/", ["ADMIN", "API"], carts.getCarts);
+const router = new Router();
 
-    this.post("/", ["USER", "PREMIUM", "API"], carts.addCart);
+router.get("/", carts.getCarts);
 
-    this.post(
-      "/:cid/product/:pid",
-      ["USER", "PREMIUM", "API"],
-      carts.addProductToCart
-    );
+router.post("/", carts.addCart);
 
-    this.get("/:cid", ["USER", "PREMIUM", "API"], carts.getCartById);
+router.post("/:cid/product/:pid", verifyToken, carts.addProductToCart);
 
-    this.delete(
-      "/:cid/products/:pid",
-      ["USER", "PREMIUM", "API"],
-      carts.removeProductOfCart
-    );
+router.get("/:cid", carts.getCartById);
 
-    this.put("/:cid", ["USER", "PREMIUM", "API"], carts.replaceProducts);
+router.delete("/:cid/products/:pid", carts.removeProductOfCart);
 
-    this.delete("/:cid", ["USER", "PREMIUM", "API"], carts.emptyCart);
-  }
-}
+router.put("/:cid", carts.replaceProducts);
+
+router.delete("/:cid", carts.emptyCart);
+
+export default router;

@@ -1,20 +1,33 @@
-import CustomRouter from "./router.js";
+import { Router } from "express";
 import * as products from "../controller/products.controller.js";
+import verifyToken from "../middlewares/sessions/verifyToken.js";
+import { usePolicies } from "../middlewares/policies/policies.js";
 
-export default class ProductsRouter extends CustomRouter {
-  init() {
-    this.get("/", ["ADMIN", "USER", "PREMIUM", "API"], products.getProducts);
+const router = Router();
 
-    this.get(
-      "/:pid",
-      ["ADMIN", "USER", "PREMIUM", "API"],
-      products.getProductById
-    );
+router.get("/", verifyToken, products.getProducts);
 
-    this.post("/", ["ADMIN", "PREMIUM", "API"], products.addProduct);
+router.get("/:pid", verifyToken, products.getProductById);
 
-    this.put("/:pid", ["ADMIN", "PREMIUM", "API"], products.updateProduct);
+router.post(
+  "/",
+  verifyToken,
+  usePolicies(["premium", "admin"]),
+  products.addProduct
+);
 
-    this.delete("/:pid", ["ADMIN", "PREMIUM", "API"], products.deleteProduct);
-  }
-}
+router.put(
+  "/:pid",
+  verifyToken,
+  usePolicies(["premium", "admin"]),
+  products.updateProduct
+);
+
+router.delete(
+  "/:pid",
+  verifyToken,
+  usePolicies(["premium", "admin"]),
+  products.deleteProduct
+);
+
+export default router;

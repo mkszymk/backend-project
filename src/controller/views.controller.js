@@ -15,7 +15,7 @@ import { loggerOutput } from "../utils/logger.js";
 const ticketManager = new TicketManager();
 
 const getProductsPage = async (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies["authToken"];
   loggerOutput("debug", `[getProductsPage] Token received: ${token}`);
   const userData = req.user;
   loggerOutput("debug", "[getProductsPage] USER: " + userData);
@@ -40,7 +40,7 @@ const getProductsPage = async (req, res) => {
 
 const getCartPage = async (req, res) => {
   const cartId = req.user.cart;
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies["authToken"];
   const cart = await (
     await fetch("http://localhost:8080/api/carts/" + cartId, {
       headers: { Authorization: `Bearer ${token}` },
@@ -69,16 +69,16 @@ const postRegister = async (req, res) => {
 };
 
 const postLogin = async (req, res) => {
-  loggerOutput("info", `Login successful`);
+  loggerOutput("info", `[PostLogin] Login successful`);
   let user = req.user;
-  loggerOutput("info", `Logged: ${user}`);
+  loggerOutput("info", `[PostLogin] Logged: ${user}`);
   const token = generateUserToken(user);
-  loggerOutput("debug", `Token: ${token}`);
+  loggerOutput("debug", `[PostLogin] Token: ${token}`);
   try {
     res.cookie("authToken", token, {
       httpOnly: true,
     });
-    res.set("Authorization", `Bearer ${token}`).redirect("/products");
+    res.redirect("/products");
   } catch (e) {
     res.redirect("/login");
   }
@@ -127,7 +127,7 @@ const postLostPassword = async (req, res) => {
 };
 
 const getManageProductsPage = async (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies["authToken"];
   loggerOutput("debug", "Rendering products manager");
   const products = await (
     await fetch("http://localhost:8080/api/products?limit=999", {
@@ -201,7 +201,7 @@ const postPurchase = async (req, res) => {
 
 const deleteEmptyCart = async (req, res) => {
   loggerOutput("info", `[DeleteEmptyCart] Removing products of cart...`);
-  const token = req.headers.authorization;
+  const token = req.cookies["authToken"];
   const cartId = req.user.cart;
   const apiResponse = await (
     await fetch("http://localhost:8080/api/carts/" + cartId, {
