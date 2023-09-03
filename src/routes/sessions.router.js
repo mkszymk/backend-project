@@ -1,6 +1,11 @@
 import { Router } from "express";
 import passport from "passport";
-import { github, githubcallback } from "../controller/session.controller.js";
+import {
+  github,
+  githubcallback,
+  postRegister,
+  current,
+} from "../controller/session.controller.js";
 
 const router = Router();
 
@@ -21,5 +26,13 @@ router.get(
   }),
   githubcallback
 );
+
+router.post(
+  "/register",
+  passport.authenticate("register", { session: false }),
+  postRegister
+);
+
+router.get("/current", current);
 
 export default router;

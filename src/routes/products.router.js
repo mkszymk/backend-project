@@ -1,31 +1,31 @@
 import { Router } from "express";
 import * as products from "../controller/products.controller.js";
-import verifyToken from "../middlewares/sessions/verifyToken.js";
+import privateAPI from "../middlewares/sessions/privateAPI.js";
 import { usePolicies } from "../middlewares/policies/policies.js";
 
 const router = Router();
 
-router.get("/", verifyToken, products.getProducts);
+router.get("/", privateAPI, products.getProducts);
 
-router.get("/:pid", verifyToken, products.getProductById);
+router.get("/:pid", privateAPI, products.getProductById);
 
 router.post(
   "/",
-  verifyToken,
+  privateAPI,
   usePolicies(["premium", "admin"]),
   products.addProduct
 );
 
 router.put(
   "/:pid",
-  verifyToken,
+  privateAPI,
   usePolicies(["premium", "admin"]),
   products.updateProduct
 );
 
 router.delete(
   "/:pid",
-  verifyToken,
+  privateAPI,
   usePolicies(["premium", "admin"]),
   products.deleteProduct
 );

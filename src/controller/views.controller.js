@@ -65,7 +65,18 @@ const getRegisterPage = async (req, res) => {
 };
 
 const postRegister = async (req, res) => {
-  res.redirect("/login");
+  const response = await (
+    await fetch("http://localhost:8080/api/sessions/register", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req.body),
+    })
+  ).json();
+  if (response.success) return res.redirect("/login");
+  else return res.redirect("/register");
 };
 
 const postLogin = async (req, res) => {

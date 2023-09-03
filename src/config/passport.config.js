@@ -9,6 +9,7 @@ import UserDTO from "../dao/DTOs/user.dto.js";
 import nodemailer from "nodemailer";
 import jwt from "passport-jwt";
 import { loggerOutput } from "../utils/logger.js";
+import { usersService } from "../repositories/index.js";
 
 const cartManager = new CartManager();
 const LocalStrategy = local.Strategy;
@@ -44,43 +45,46 @@ const initializePassport = () => {
         usernameField: "email",
       },
       async (req, username, password, done) => {
+        loggerOutput("debug", `[PassportRegister] Trying to register user....`);
         const { name, lastName, email, age } = req.body;
         try {
-          let user = await usersModel.findOne({ email: username });
-          if (user) {
-            return done(null, false);
-          }
-          const newUser = new UserDTO({
+          const result = await usersService.createUser({
             name,
             lastName,
-            email,
+            email: username,
             age,
             password,
-            cart: (await cartManager.addCart()).cartId,
-            source: "register",
           });
-          let result = await usersModel.create(newUser);
-          await transport.sendMail({
-            from: "eCommerce",
-            to: email,
-            subject: "Usuario creado",
-            html: `
-            <div>
-              <h1>Usuario creado!</h1>
-              <h3>Hola ${name}, se ha creado tu usuario en ecommerce.</h3>
-            </div>
-            `,
-            attachments: [],
-          });
-          console.log("Correo enviado!");
-          return done(null, result);
+          if (result.success) {
+            await transport.sendMail({
+              from: "eCommerce",
+              to: email,
+              subject: "Usuario creado",
+              html: `
+              <div>
+                <h1>Usuario creado!</h1>
+                <h3>Hola ${name}, se ha creado tu usuario en ecommerce.</h3>
+              </div>
+              `,
+              attachments: [],
+            });
+            return done(null, result);
+          } else {
+            loggerOutput(
+              "warning",
+              `[PassportRegister] Error: ${result.error} / Message: ${result.message}`
+            );
+            return done(null, false, {
+              error: result.error,
+              message: result.message,
+            });
+          }
         } catch (error) {
           return done(error);
         }
       }
     )
   );
-
   passport.use(
     "restorePassword",
     new LocalStrategy({ usernameField: "email" }, async (username, done) => {
@@ -95,7 +99,6 @@ const initializePassport = () => {
       }
     })
   );
-
   passport.use(
     "login",
     new LocalStrategy(
@@ -134,7 +137,6 @@ const initializePassport = () => {
       }
     )
   );
-
   passport.use(
     "github",
     new GitHubStrategy(
@@ -171,11 +173,9 @@ const initializePassport = () => {
       }
     )
   );
-
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
-
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await usersModel.findById(id);

@@ -17,14 +17,7 @@ router.get("/login", publicView, views.getLoginPage);
 
 router.get("/register", publicView, views.getRegisterPage);
 
-router.post(
-  "/register",
-  passport.authenticate("register", {
-    failureRedirect: "/register",
-    session: false,
-  }),
-  views.postRegister
-);
+router.post("/register", views.postRegister);
 
 router.post(
   "/login",

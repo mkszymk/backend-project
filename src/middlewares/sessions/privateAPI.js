@@ -10,15 +10,19 @@ export default async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
   if (!token) {
-    loggerOutput("debug", `[VerifyToken] No token found, redirecting...`);
-    return res.redirect("/login");
+    loggerOutput("debug", `[PrivateAPI] No token found, redirecting...`);
+    return res
+      .status(401)
+      .send({ success: false, message: "Auth token must be valid" });
   }
-  loggerOutput("debug", `[VerifyToken] Token: ${token.slice(0, 5)}`);
+  loggerOutput("debug", `[PrivateAPI] Token: ${token.slice(0, 5)}`);
   try {
     req.user = jwt.verify(token, config.jwtToken).user;
     next();
   } catch (e) {
     res.clearCookie("authToken");
-    res.redirect("/login");
+    return res
+      .status(401)
+      .send({ success: false, message: "Auth token must be valid" });
   }
 };

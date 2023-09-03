@@ -17,29 +17,14 @@ const githubcallback = async (req, res) => {
 };
 
 const current = async (req, res) => {
-  if (!req.user) return res.redirect("/login");
+  if (!req.user) return res.status(404).send({ error: "User not found" });
   const user = new UserDTO(req.user);
   return res.status(200).send(user.getRelevantInfo());
 };
 
-const adminRoute = (req, res, next) => {
-  if (!req.session.user)
-    return res.status(400).send({ error: "400 - No session found." });
-  if (req.session.user.role == "user") {
-    return res.status(403).send({ error: "403 - Forbidden" });
-  } else {
-    return next();
-  }
+const postRegister = async (req, res) => {
+  loggerOutput("debug", `[PostRegisterAPISessions] User registered..`);
+  return res.send({ success: true });
 };
 
-const userRoute = (req, res, next) => {
-  if (!req.session.user)
-    return res.status(400).send({ error: "400 - No session found." });
-  if (req.session.user.role == "admin") {
-    return res.status(403).send({ error: "403 - Forbidden" });
-  } else {
-    return next();
-  }
-};
-
-export { github, githubcallback, current, adminRoute, userRoute };
+export { github, githubcallback, current, postRegister };

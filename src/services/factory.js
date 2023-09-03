@@ -1,6 +1,6 @@
 import config from "../config/config.js";
 
-let CartManager, ProductManager;
+let CartManager, ProductManager, UserManager;
 
 switch (config.persistence) {
   case "MONGO":
@@ -8,8 +8,10 @@ switch (config.persistence) {
     const { default: DBProductManager } = await import(
       "./DB/ProductManager.db.js"
     );
+    const { default: DBUserManager } = await import("./DB/UserManager.db.js");
     CartManager = DBCartManager;
     ProductManager = DBProductManager;
+    UserManager = DBUserManager;
     break;
   case "FS":
     //Actualmente el DAO de FS no es funcional como sí lo es el de Mongo,
@@ -26,4 +28,4 @@ switch (config.persistence) {
     break;
 }
 
-export { CartManager, ProductManager };
+export { CartManager, ProductManager, UserManager };

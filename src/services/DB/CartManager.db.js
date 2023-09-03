@@ -1,4 +1,5 @@
 import { cartsModel } from "../../dao/models/carts.model.js";
+import { loggerOutput } from "../../utils/logger.js";
 
 class DBCartManager {
   async addCart() {
@@ -51,9 +52,11 @@ class DBCartManager {
   }
 
   async getCartById(id) {
+    loggerOutput("debug", `[cartManager/cartById] Trying to get cart by ID.`);
     try {
       return await cartsModel.findById(id).populate("products.product");
     } catch (m_error) {
+      loggerOutput("warning", `[cartManager/cartById] Cart error`);
       return { error: 404, mongoError: m_error };
     }
   }

@@ -1,18 +1,18 @@
-import sessionsRouter from "./routes/sessions.router.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import passport from "passport";
-import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
 import errorMiddleware from "./middlewares/errors/index.js";
 import { addLogger } from "./utils/logger.js";
-import ViewsRouter from "./routes/views.js";
-import CartsRouter from "./routes/carts.js";
-import ProductsRouter from "./routes/products.js";
+import ViewsRouter from "./routes/views.router.js";
+import CartsRouter from "./routes/carts.router.js";
+import ProductsRouter from "./routes/products.router.js";
+import sessionsRouter from "./routes/sessions.router.js";
 import cookieParser from "cookie-parser";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 
@@ -29,9 +29,8 @@ app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-initializePassport();
-
 app.use(passport.initialize());
+initializePassport();
 
 const swaggerOptions = {
   definition: {
@@ -51,6 +50,7 @@ app.use("/api/carts", CartsRouter);
 app.use("/api/products", ProductsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/", ViewsRouter);
+
 app.use("/loggerTest", (req, res) => {
   req.logger.debug(`${new Date().toLocaleTimeString()} - Testing debug log.`);
   req.logger.info(`${new Date().toLocaleTimeString()} - Testing info log.`);
