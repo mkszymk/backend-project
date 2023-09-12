@@ -12,6 +12,8 @@ const usersSchema = new mongoose.Schema({
   cart: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
   role: { type: String, default: "user" },
   source: { type: String },
+  documents: { type: Array, default: [] },
+  last_connection: { type: String },
 });
 
 export const usersModel = db.model(usersCollection, usersSchema);

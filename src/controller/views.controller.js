@@ -1,7 +1,10 @@
-import UserDTO from "../dao/DTOs/user.dto.js";
 import ProductDTO from "../dao/DTOs/product.dto.js";
 import TicketManager from "../services/DB/TicketManager.db.js";
-import { cartsService, productsService } from "../repositories/index.js";
+import {
+  cartsService,
+  productsService,
+  usersService,
+} from "../repositories/index.js";
 import { usersModel } from "../dao/models/user.model.js";
 import { createHash, generateProduct, generateUserToken } from "../utils.js";
 import {
@@ -66,7 +69,7 @@ const getRegisterPage = async (req, res) => {
 
 const postRegister = async (req, res) => {
   const response = await (
-    await fetch("http://localhost:8080/api/sessions/register", {
+    await fetch("http://localhost:8080/api/users/register", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -89,6 +92,9 @@ const postLogin = async (req, res) => {
     res.cookie("authToken", token, {
       httpOnly: true,
     });
+    const userDb = await usersModel.findOne({ _id: user._id });
+    userDb.last_connection = Date.now().toString();
+    await userDb.save();
     res.redirect("/products");
   } catch (e) {
     res.redirect("/login");
@@ -100,8 +106,17 @@ const getMainPage = async (req, res) => {
 };
 
 const getLogoutPage = async (req, res) => {
+  try {
+    const userDb = await usersModel.findOne({ _id: req.user._id });
+    loggerOutput("debug", `[Logout] User: ${req.user._id}`);
+    userDb.last_connection = Date.now().toString();
+    await userDb.save();
+  } catch (e) {
+    loggerOutput("error", `[Logout] error: ${e}`);
+  }
   req.headers.authorization = null;
   res.clearCookie("authToken");
+
   res.redirect("/login");
 };
 
@@ -278,6 +293,16 @@ const postRestorePassword = async (req, res) => {
   }
 };
 
+const getProfilePage = async (req, res) => {
+  const userData = req.user;
+  res.render("profile", {
+    style: "style.css",
+    ...userData,
+    admin: userData.role === "admin" ? true : false,
+    premium: userData.role === "premium" ? true : false,
+  });
+};
+
 export {
   getProductsPage,
   getCartPage,
@@ -297,4 +322,5 @@ export {
   getMockingProducts,
   getRestorePassword,
   postRestorePassword,
+  getProfilePage,
 };

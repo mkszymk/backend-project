@@ -1,0 +1,113 @@
+<div class="accountData">
+  <p>Bienvenido, {{name}} {{lastName}}</p>
+  <p>{{email}}</p>
+  <p>Edad: {{age}}</p>
+  {{#if admin}}
+    <p>Rol: ADMIN</p>
+  {{/if}}
+  {{#if premium}}
+    <p>Usuario PREMIUM</p>
+  {{/if}}
+  <a href="http://localhost:8080/logout" class="logoutA"><button
+      class="logoutBtn"
+    >Cerrar sesión</button></a>
+</div>
+<h1>Perfil Personal</h1>
+<a href="http://localhost:8080/" class="link">VER PRODUCTOS</a>
+<div id="profileContainer">
+  <div id="accountInfo">
+    <div class="accountProfileData"><b>Nombre de la cuenta:</b>
+      <p>{{name}} {{lastName}}</p></div>
+    <div class="accountProfileData"><b>Email/Usuario:</b> <p>{{email}}</p></div>
+    <div class="accountProfileData"><b>Edad:</b> <p>{{age}}</p></div>
+    <div class="accountProfileData"><b>Membresía:</b> <p>{{role}}</p></div>
+  </div>
+  <div id="formsContainer">
+    <form
+      class="profileForm"
+      method="post"
+      action="http://localhost:8080/api/users/{{_id}}/documents"
+      enctype="multipart/form-data"
+    >
+      <b>Subir foto de perfil:</b>
+      <input type="hidden" name="docType" value="profilePic" />
+      <input
+        required
+        type="file"
+        id="docs"
+        name="docs"
+        accept="image/png, image/jpeg"
+      />
+      <button id="profileBtn">Actualizar foto</button>
+    </form>
+    <form
+      class="profileForm"
+      method="post"
+      action="http://localhost:8080/api/users/{{_id}}/documents"
+      enctype="multipart/form-data"
+    >
+      <b>Subir foto de producto:</b>
+      <input type="hidden" name="docType" value="productImg" />
+      <input
+        required
+        type="file"
+        id="docs"
+        name="docs"
+        accept="image/png, image/jpeg"
+      />
+      <button id="profileBtn">Subir foto</button>
+    </form>
+    <b>Subir documentos:</b>
+    <form
+      class="profileForm"
+      method="post"
+      action="http://localhost:8080/api/users/{{_id}}/documents"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="docType" value="document_id" />
+      <b>Identificación:</b>
+      <input
+        required
+        type="file"
+        id="docs"
+        name="docs"
+        accept="image/png, image/jpeg, application/pdf"
+      />
+      <button id="profileBtn">Subir documento</button>
+    </form>
+    <form
+      class="profileForm"
+      method="post"
+      action="http://localhost:8080/api/users/{{_id}}/documents"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="docType" value="document_addr" />
+      <b>Comprobante de domicilio:</b>
+      <input
+        required
+        type="file"
+        id="docs"
+        name="docs"
+        accept="image/png, image/jpeg, application/pdf"
+      />
+      <button id="profileBtn">Subir documento</button>
+    </form>
+    <form
+      class="profileForm"
+      method="post"
+      action="http://localhost:8080/api/users/{{_id}}/documents"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="docType" value="document_acc" />
+      <b>Estado de cuenta:</b>
+      <input
+        required
+        type="file"
+        id="docs"
+        name="docs"
+        accept="image/png, image/jpeg, application/pdf"
+      />
+      <button id="profileBtn">Subir documento</button>
+    </form>
+  </div>
+</div>

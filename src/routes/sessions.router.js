@@ -3,7 +3,6 @@ import passport from "passport";
 import {
   github,
   githubcallback,
-  postRegister,
   current,
 } from "../controller/session.controller.js";
 
@@ -25,12 +24,6 @@ router.get(
     session: false,
   }),
   githubcallback
-);
-
-router.post(
-  "/register",
-  passport.authenticate("register", { session: false }),
-  postRegister
 );
 
 router.get("/current", current);

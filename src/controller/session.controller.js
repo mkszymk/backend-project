@@ -22,9 +22,4 @@ const current = async (req, res) => {
   return res.status(200).send(user.getRelevantInfo());
 };
 
-const postRegister = async (req, res) => {
-  loggerOutput("debug", `[PostRegisterAPISessions] User registered..`);
-  return res.send({ success: true });
-};
-
-export { github, githubcallback, current, postRegister };
+export { github, githubcallback, current };

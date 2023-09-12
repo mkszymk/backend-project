@@ -1,7 +1,5 @@
 import passport from "passport";
 import * as views from "../controller/views.controller.js";
-import { usersModel } from "../dao/models/user.model.js";
-import { loggerOutput } from "../utils/logger.js";
 import { Router } from "express";
 import verifyToken from "../middlewares/sessions/verifyToken.js";
 import publicView from "../middlewares/sessions/publicView.js";
@@ -62,27 +60,6 @@ router.get("/restorepassword", publicView, views.getRestorePassword);
 
 router.post("/restorepassword", publicView, views.postRestorePassword);
 
-router.get("/api/users/premium/:uid", async (req, res) => {
-  loggerOutput("debug", `Changing user role...`);
-  const uid = req.params.uid;
-  try {
-    const user = await usersModel.findOne({ _id: uid });
-    if (!user) {
-      return res
-        .status(404)
-        .send({ success: false, message: "User not found" });
-    }
-    if (user.role == "premium") {
-      user.role = "user";
-    } else {
-      user.role = "premium";
-    }
-    await user.save();
-    loggerOutput("info", `Role changed!`);
-    res.send("Se actualizó el rol para: " + user.email);
-  } catch (e) {
-    loggerOutput("error", `Role change error: ${e}`);
-  }
-});
+router.get("/profile", verifyToken, views.getProfilePage);
 
 export default router;

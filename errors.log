@@ -337,3 +337,38 @@ error: 19:10:00 - One or more arguments were incomplete or not valid.
         * status: [ OPTIONAL ] Boolean, received undefined - undefined
         * category: String, received undefined - undefined
     
+error: 18:50:18 - undefined
+error: 18:51:22 - [Multer] Path error
+error: 18:51:22 - undefined
+error: 19:26:29 - [Multer] Path error
+error: 19:26:29 - undefined
+error: 19:28:39 - undefined
+error: 20:22:25 - [Multer] Path error
+error: 20:22:25 - undefined
+error: 20:22:55 - [Multer] Path error
+error: 20:22:55 - undefined
+error: 20:29:11 - [Multer] Path error
+error: 20:29:11 - undefined
+error: 20:29:36 - [Multer] Path error
+error: 20:29:36 - undefined
+error: 20:32:22 - [Multer] Path error
+error: 20:32:22 - undefined
+error: 20:49:18 - [Multer] Path error
+error: 20:49:18 - undefined
+error: 20:49:42 - undefined
+error: 20:51:15 - undefined
+error: 20:53:14 - undefined
+error: 20:55:18 - [Error Middleware] Cause: undefined
+error: 21:15:04 - [MulterError] Error: ENOENT: no such file or directory, mkdir 'C:\Users\Lucas\Desktop\Programación\Backend\Proyecto\src\private\64e7c14332730e02a5de7324\profile'
+error: 21:15:04 - [Error Middleware] Cause: undefined
+error: 21:18:48 - [MulterError] Error: ENOENT: no such file or directory, mkdir 'C:\Users\Lucas\Desktop\Programación\Backend\Proyecto\src\private\64e7c14332730e02a5de7324\profile'
+error: 21:18:48 - [Error Middleware] Cause: undefined
+error: 21:19:27 - [MulterError] Error: ENOENT: no such file or directory, mkdir 'C:\Users\Lucas\Desktop\Programación\Backend\Proyecto\src/private/64e7c14332730e02a5de7324/profile'
+error: 21:19:27 - [Error Middleware] Cause: undefined
+error: 21:38:40 - [Multer] Path error
+error: 21:38:40 - [Error Middleware] Cause: undefined
+error: 22:06:42 - Role change error: ReferenceError: usersModel is not defined
+error: 22:38:55 - ReferenceError: user is not defined
+error: 22:39:19 - ReferenceError: user is not defined
+error: 22:40:18 - TypeError: usersService.findOne is not a function
+error: 22:41:39 - [Logout] error: TypeError: usersService.findOne is not a function

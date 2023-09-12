@@ -1,5 +1,6 @@
 import UserDTO from "../../dao/DTOs/user.dto.js";
 import { usersModel } from "../../dao/models/user.model.js";
+import { loggerOutput } from "../../utils/logger.js";
 import DBCartManager from "./CartManager.db.js";
 
 const cartManager = new DBCartManager();
@@ -31,6 +32,32 @@ export default class DBUserManager {
       return { success: true };
     } catch (e) {
       return { success: false, error: 500, message: "Mongo Error: " + e };
+    }
+  }
+
+  async addDocument(userId, documentName, documentLink) {
+    loggerOutput("debug", `[AddDocument] UserID: ${userId}`);
+    const user = await usersModel.findOne({ _id: userId });
+    if (!user)
+      return { success: false, error: 404, message: "User not found." };
+    if (
+      user.documents.includes({ name: documentName, reference: documentLink })
+    )
+      return {
+        success: false,
+        error: 400,
+        message: "Document already uploaded",
+      };
+    try {
+      user.documents.push({
+        name: documentName,
+        reference: documentLink,
+      });
+      await user.save();
+      return { success: true };
+    } catch (e) {
+      loggerOutput("error", `[UserManagerAddDocument] ${e}`);
+      return { success: false, error: 500, mongoError: e };
     }
   }
 }
