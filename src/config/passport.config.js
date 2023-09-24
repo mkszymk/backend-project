@@ -10,6 +10,9 @@ import nodemailer from "nodemailer";
 import jwt from "passport-jwt";
 import { loggerOutput } from "../utils/logger.js";
 import { usersService } from "../repositories/index.js";
+import config from "./config.js";
+
+const { baseUrl } = config;
 
 const cartManager = new CartManager();
 const LocalStrategy = local.Strategy;
@@ -143,7 +146,7 @@ const initializePassport = () => {
       {
         clientID: config.githubClientId,
         clientSecret: config.githubClientSecret,
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        callbackURL: `${baseUrl}/api/sessions/githubcallback`,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {

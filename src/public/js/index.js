@@ -1,7 +1,7 @@
 async function addProductToCart(cartId, productId) {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/carts/" + cartId + "/product/" + productId,
+      "/api/carts/" + cartId + "/product/" + productId,
       { method: "POST" }
     );
     if (response.ok) {

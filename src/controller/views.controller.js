@@ -263,7 +263,7 @@ const getRestorePassword = async (req, res) => {
     });
   } else {
     res.send(
-      "<h1>Link no válido...</h1><a href='http://localhost:8080/'>Volver a la página principal</a>"
+      `<h1>Link no válido...</h1><a href='${baseUrl}'>Volver a la página principal</a>`
     );
   }
 };

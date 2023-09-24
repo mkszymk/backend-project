@@ -17,7 +17,7 @@ form.addEventListener("submit", async (e) => {
 
 async function addProduct(product) {
   const apiResponse = (
-    await fetch("http://localhost:8080/api/products/", {
+    await fetch("/api/products/", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -31,7 +31,7 @@ async function addProduct(product) {
 
 async function deleteProduct(productId) {
   const apiResponse = await (
-    await fetch("http://localhost:8080/api/products/" + productId, {
+    await fetch("/api/products/" + productId, {
       method: "DELETE",
     })
   ).json();

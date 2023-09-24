@@ -2,14 +2,14 @@ const btn = document.getElementById("purchaseBtn");
 const emptyCartBtn = document.getElementById("emptyCartBtn");
 
 async function purchaseCart() {
-  const apiResponse = await fetch("http://localhost:8080/cart/purchase", {
+  const apiResponse = await fetch("/cart/purchase", {
     method: "POST",
   });
   return apiResponse;
 }
 
 async function emptyCart() {
-  const apiResponse = await fetch("http://localhost:8080/cart/empty", {
+  const apiResponse = await fetch("/cart/empty", {
     method: "DELETE",
   });
   return apiResponse;

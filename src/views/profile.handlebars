@@ -8,12 +8,10 @@
   {{#if premium}}
     <p>Usuario PREMIUM</p>
   {{/if}}
-  <a href="http://localhost:8080/logout" class="logoutA"><button
-      class="logoutBtn"
-    >Cerrar sesión</button></a>
+  <a href="/logout" class="logoutA"><button class="logoutBtn">Cerrar sesión</button></a>
 </div>
 <h1>Perfil Personal</h1>
-<a href="http://localhost:8080/" class="link">VER PRODUCTOS</a>
+<a href="/" class="link">VER PRODUCTOS</a>
 <div id="profileContainer">
   <div id="accountInfo">
     <div class="accountProfileData"><b>Nombre de la cuenta:</b>
@@ -26,7 +24,7 @@
     <form
       class="profileForm"
       method="post"
-      action="http://localhost:8080/api/users/{{_id}}/documents"
+      action="/api/users/{{_id}}/documents"
       enctype="multipart/form-data"
     >
       <b>Subir foto de perfil:</b>
@@ -43,7 +41,7 @@
     <form
       class="profileForm"
       method="post"
-      action="http://localhost:8080/api/users/{{_id}}/documents"
+      action="/api/users/{{_id}}/documents"
       enctype="multipart/form-data"
     >
       <b>Subir foto de producto:</b>
@@ -61,7 +59,7 @@
     <form
       class="profileForm"
       method="post"
-      action="http://localhost:8080/api/users/{{_id}}/documents"
+      action="/api/users/{{_id}}/documents"
       enctype="multipart/form-data"
     >
       <input type="hidden" name="docType" value="document_id" />
@@ -78,7 +76,7 @@
     <form
       class="profileForm"
       method="post"
-      action="http://localhost:8080/api/users/{{_id}}/documents"
+      action="/api/users/{{_id}}/documents"
       enctype="multipart/form-data"
     >
       <input type="hidden" name="docType" value="document_addr" />
@@ -95,7 +93,7 @@
     <form
       class="profileForm"
       method="post"
-      action="http://localhost:8080/api/users/{{_id}}/documents"
+      action="/api/users/{{_id}}/documents"
       enctype="multipart/form-data"
     >
       <input type="hidden" name="docType" value="document_acc" />
