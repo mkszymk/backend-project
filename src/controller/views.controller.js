@@ -1,10 +1,6 @@
 import ProductDTO from "../dao/DTOs/product.dto.js";
 import TicketManager from "../services/DB/TicketManager.db.js";
-import {
-  cartsService,
-  productsService,
-  usersService,
-} from "../repositories/index.js";
+import { cartsService, productsService } from "../repositories/index.js";
 import { usersModel } from "../dao/models/user.model.js";
 import { createHash, generateProduct, generateUserToken } from "../utils.js";
 import {
@@ -232,7 +228,7 @@ const deleteEmptyCart = async (req, res) => {
   const apiResponse = await (
     await fetch("http://localhost:8080/api/carts/" + cartId, {
       method: "DELETE",
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     })
   ).json();
   if (apiResponse.success) {

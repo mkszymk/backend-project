@@ -4,6 +4,10 @@ import {
   postRegister,
   uploadDocument,
   changeRole,
+  getUsers,
+  deleteUsers,
+  getUser,
+  deleteUser,
 } from "../controller/users.controller.js";
 import privateAPI from "../middlewares/sessions/privateAPI.js";
 import { uploader } from "../middlewares/multer/uploader.js";
@@ -25,5 +29,13 @@ router.post(
 );
 
 router.get("/premium/:uid", privateAPI, usePolicies(["admin"]), changeRole);
+
+router.get("/", privateAPI, usePolicies(["admin"]), getUsers);
+
+router.delete("/", privateAPI, usePolicies(["admin"]), deleteUsers);
+
+router.get("/:uid", privateAPI, usePolicies(["admin"]), getUser);
+
+router.delete("/:uid", privateAPI, usePolicies(["admin"]), deleteUser);
 
 export default router;

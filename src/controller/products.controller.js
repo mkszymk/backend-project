@@ -1,10 +1,21 @@
 import ProductDTO from "../dao/DTOs/product.dto.js";
-import { productsService } from "../repositories/index.js";
+import { productsService, usersService } from "../repositories/index.js";
 import CustomError from "../services/errors/CustomError.js";
 import { generateProductErrorInfo } from "../services/errors/info.js";
 import EErrors from "../services/errors/enums.js";
 import { loggerOutput } from "../utils/logger.js";
 
+import nodemailer from "nodemailer";
+import config from "../config/config.js";
+
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: config.gmailUser,
+    pass: config.gmailPassword,
+  },
+});
 const getProducts = async (req, res) => {
   loggerOutput(
     "debug",
@@ -119,12 +130,26 @@ const deleteProduct = async (req, res) => {
         .send({ success: false, messsage: "User is not the product owner." });
     }
   } else {
-    loggerOutput("debug", `[ProductsController/deleteProduct] User admin.`);
+    loggerOutput("debug", `[ProductsController/deleteProduct] User is admin.`);
     deleteProductResponse = await productsService.deleteProduct(productId);
   }
 
   if (deleteProductResponse.error)
     return res.status(deleteProductResponse.error).send(deleteProductResponse);
+
+  if (product.payload.owner !== "admin") {
+    const _userOwner = await usersService.getUserByEmail(product.payload.owner);
+    if (_userOwner.payload.role == "premium") {
+      await transport.sendMail({
+        to: _userOwner.payload.email,
+        subject: "Producto eliminado",
+        html: `
+        <h1>Su producto ha sido eliminado</h1>
+        <h4>Su producto ${product.payload.title} ha sido eliminado de la tienda.</h4>
+        `,
+      });
+    }
+  }
   loggerOutput("info", "Deleting product with ID " + productId);
   return res.send(deleteProductResponse);
 };

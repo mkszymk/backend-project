@@ -1,6 +1,6 @@
 import { loggerOutput } from "../utils/logger.js";
 import { usersService } from "../repositories/index.js";
-import { usersModel } from "../dao/models/user.model.js";
+import UserDTO from "../dao/DTOs/user.dto.js";
 
 export const postRegister = async (req, res) => {
   loggerOutput("debug", `[PostRegisterAPISessions] User registered..`);
@@ -38,43 +38,27 @@ export const uploadDocument = async (req, res) => {
 export const changeRole = async (req, res) => {
   loggerOutput("debug", `Changing user role...`);
   const uid = req.params.uid;
-  try {
-    const user = await usersModel.findOne({ _id: uid });
-    if (!user) {
-      return res
-        .status(404)
-        .send({ success: false, message: "User not found" });
-    }
-    if (user.role == "premium") {
-      user.role = "user";
-      loggerOutput("info", `Role from premium to user!`);
-      await user.save();
-      return res.send({
-        success: true,
-        message: "Se actualizó el rol para: " + user.email,
-      });
-    } else {
-      const documents = user.documents;
-      let docControl = 0;
-      documents.forEach((doc) => {
-        const _name = doc.name.split(".")[0];
-        if (_name == "doc_id" || _name == "doc_add" || _name == "doc_acc")
-          docControl += 1;
-      });
+  const response = await usersService.changeRole(uid);
+  return res.status(response.status).send(response);
+};
 
-      if (docControl === 3) {
-        user.role = "premium";
-        await user.save();
-        return res.send("Se actualizó el rol para: " + user.email);
-      } else {
-        return res.status(401).send({
-          success: false,
-          message: "El usuario no terminó de procesar la información.",
-        });
-      }
-    }
-  } catch (e) {
-    loggerOutput("error", `Role change error: ${e}`);
-    return res.status(500).send({ success: false, userApiError: e });
-  }
+export const getUsers = async (req, res) => {
+  const response = await usersService.getUsers();
+  return res.status(response.status).send(response);
+};
+
+export const deleteUsers = async (req, res) => {
+  const response = await usersService.deleteUsers();
+  return res.status(response.status).send(response);
+};
+
+export const getUser = async (req, res) => {
+  const response = await usersService.getUserById(req.params.uid);
+  const user = new UserDTO(response.payload).getRelevantInfo();
+  return res.status(response.status).send(user);
+};
+
+export const deleteUser = async (req, res) => {
+  const response = await usersService.deleteUserById(req.params.uid);
+  return res.status(response.status).send(response);
 };

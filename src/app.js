@@ -55,17 +55,6 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", UsersRouter);
 app.use("/", ViewsRouter);
 
-app.use("/loggerTest", (req, res) => {
-  req.logger.debug(`${new Date().toLocaleTimeString()} - Testing debug log.`);
-  req.logger.info(`${new Date().toLocaleTimeString()} - Testing info log.`);
-  req.logger.warning(
-    `${new Date().toLocaleTimeString()} - Testing warning log.`
-  );
-  req.logger.error(`${new Date().toLocaleTimeString()} - Testing error log.`);
-  req.logger.fatal(`${new Date().toLocaleTimeString()} - Testing fatal log.`);
-  res.send("Testing logger.");
-});
-
 app.use(errorMiddleware);
 
 const httpServer = app.listen(config.port, () => {
