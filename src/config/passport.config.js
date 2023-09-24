@@ -10,7 +10,6 @@ import nodemailer from "nodemailer";
 import jwt from "passport-jwt";
 import { loggerOutput } from "../utils/logger.js";
 import { usersService } from "../repositories/index.js";
-import config from "./config.js";
 
 const { baseUrl } = config;
 
