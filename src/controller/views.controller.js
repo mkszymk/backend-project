@@ -10,8 +10,11 @@ import {
   decryptToken,
 } from "../utils/restorePassword.js";
 import { loggerOutput } from "../utils/logger.js";
+import config from "../config/config.js";
 
 const ticketManager = new TicketManager();
+
+const { baseUrl } = config;
 
 const getProductsPage = async (req, res) => {
   const token = req.cookies["authToken"];
@@ -21,7 +24,7 @@ const getProductsPage = async (req, res) => {
   if (!userData) return;
   const { page } = req.query || 1;
   const products = await (
-    await fetch("http://localhost:8080/api/products?page=" + page, {
+    await fetch(baseUrl + "/api/products?page=" + page, {
       headers: { Authorization: `Bearer ${token}` },
     })
   ).json();
@@ -41,7 +44,7 @@ const getCartPage = async (req, res) => {
   const cartId = req.user.cart;
   const token = req.cookies["authToken"];
   const cart = await (
-    await fetch("http://localhost:8080/api/carts/" + cartId, {
+    await fetch(baseUrl + "/api/carts/" + cartId, {
       headers: { Authorization: `Bearer ${token}` },
     })
   ).json();
@@ -65,7 +68,7 @@ const getRegisterPage = async (req, res) => {
 
 const postRegister = async (req, res) => {
   const response = await (
-    await fetch("http://localhost:8080/api/users/register", {
+    await fetch(baseUrl + "/api/users/register", {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -152,7 +155,7 @@ const getManageProductsPage = async (req, res) => {
   const token = req.cookies["authToken"];
   loggerOutput("debug", "Rendering products manager");
   const products = await (
-    await fetch("http://localhost:8080/api/products?limit=999", {
+    await fetch(baseUrl + "/api/products?limit=999", {
       headers: { Authorization: "Bearer " + token },
     })
   ).json();
@@ -168,7 +171,7 @@ const postAddProduct = async (req, res) => {
     const _product = new ProductDTO(req.body);
     const product = JSON.stringify(_product);
     const addProductResponse = (
-      await fetch("http://localhost:8080/api/products/", {
+      await fetch(baseUrl + "/api/products/", {
         method: "post",
         headers: {
           Accept: "application/json",
@@ -193,7 +196,7 @@ const getTicketPage = async (req, res) => {
         ticket: ticket.ticket,
       });
   } else {
-    return res.redirect("http://localhost:8080/");
+    return res.redirect("/");
   }
 };
 
@@ -226,7 +229,7 @@ const deleteEmptyCart = async (req, res) => {
   const token = req.cookies["authToken"];
   const cartId = req.user.cart;
   const apiResponse = await (
-    await fetch("http://localhost:8080/api/carts/" + cartId, {
+    await fetch(baseUrl + "/api/carts/" + cartId, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })

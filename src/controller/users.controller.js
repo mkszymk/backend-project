@@ -1,6 +1,9 @@
 import { loggerOutput } from "../utils/logger.js";
 import { usersService } from "../repositories/index.js";
 import UserDTO from "../dao/DTOs/user.dto.js";
+import config from "../config/config.js";
+
+const { baseUrl } = config;
 
 export const postRegister = async (req, res) => {
   loggerOutput("debug", `[PostRegisterAPISessions] User registered..`);
@@ -15,7 +18,7 @@ export const uploadDocument = async (req, res) => {
     return res
       .status(500)
       .send({ error: 500, message: "File/s not uploaded." });
-  const path = `http://localhost:8080/${
+  const path = `${baseUrl}/${
     docType == "productImg" ? "static" : "private"
   }/${userId}/${
     docType == "productImg"
